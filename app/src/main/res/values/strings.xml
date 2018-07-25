@@ -1,7 +1,13 @@
 <resources>
+    <!--
+    - Global
+    -->
     <string name="app_name">GeoRiddles</string>
+    <string name="data_error_message">An error with data has occurred.</string>
 
-    <!-- Main Activity -->
+    <!--
+    - Main Activity
+    -->
     <string name="welcome">Welcome to GeoRiddles</string>
     <string name="provide_code">Please provide the code for the game</string>
     <string name="placeholder_code">code</string>
@@ -9,4 +15,5 @@
     <string name="select_nearby">select from nearby games</string>
     <string name="btn_start_game">Start Game</string>
     <string name="spinner_dummy_text">Spinner text</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package sk.dejw.android.georiddles.utils;
+package sk.dejw.android.georiddles.utils.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
