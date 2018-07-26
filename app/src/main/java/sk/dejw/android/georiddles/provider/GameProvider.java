@@ -9,8 +9,7 @@ import net.simonvt.schematic.annotation.TableEndpoint;
 
 /**
  * Uses the Schematic (https://github.com/SimonVT/schematic) to create a content provider and
- * define
- * URIs for the provider
+ * define URIs for the provider
  */
 
 @ContentProvider(

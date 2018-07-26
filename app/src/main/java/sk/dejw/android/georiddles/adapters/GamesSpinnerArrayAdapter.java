@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,19 +20,24 @@ import sk.dejw.android.georiddles.models.Game;
 public class GamesSpinnerArrayAdapter extends ArrayAdapter<Game> {
     private final LayoutInflater mInflater;
     private final Context mContext;
-    private final List<Game> items;
     private final int mResource;
+    private List<Game> mGamesList;
 
     @BindView(R.id.tv_game_title)
     TextView mGameTitle;
 
-    public GamesSpinnerArrayAdapter(@NonNull Context context, int resource, @NonNull List<Game> objects) {
-        super(context, resource, objects);
+    public GamesSpinnerArrayAdapter(@NonNull Context context, int resource, @NonNull List<Game> games) {
+        super(context, resource, games);
 
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mResource = resource;
-        items = objects;
+        mGamesList = games;
+    }
+
+    public void swapData(ArrayList<Game> newData) {
+        mGamesList = newData;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -50,7 +56,7 @@ public class GamesSpinnerArrayAdapter extends ArrayAdapter<Game> {
 
         ButterKnife.bind(this, view);
 
-        Game game = items.get(position);
+        Game game = mGamesList.get(position);
 
         mGameTitle.setText(game.getTitle());
 
