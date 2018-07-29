@@ -96,19 +96,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_or" />
 
-        <!--<Spinner-->
-            <!--android:id="@+id/s_near_by"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="@dimen/activity_margin"-->
-            <!--android:layout_marginLeft="@dimen/activity_margin"-->
-            <!--android:layout_marginRight="@dimen/activity_margin"-->
-            <!--android:layout_marginStart="@dimen/activity_margin"-->
-            <!--android:layout_marginTop="@dimen/welcome_margin"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/tv_select_nearby"-->
-            <!--android:spinnerMode="dropdown"/>-->
         <Button
             android:id="@+id/bt_near_by"
             android:layout_width="match_parent"
