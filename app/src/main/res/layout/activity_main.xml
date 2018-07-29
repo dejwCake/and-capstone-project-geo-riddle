@@ -36,7 +36,7 @@
             android:layout_marginStart="@dimen/activity_margin"
             android:layout_marginTop="@dimen/welcome_margin"
             android:text="@string/provide_code"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_view_font_size_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_welcome" />
@@ -45,14 +45,14 @@
             android:id="@+id/et_code"
             android:layout_width="0dp"
             android:layout_height="42dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="@dimen/activity_margin"
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginRight="@dimen/activity_margin"
             android:layout_marginStart="@dimen/activity_margin"
             android:layout_marginTop="@dimen/welcome_margin"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@string/placeholder_code"
+            android:hint="@string/placeholder_code"
             app:layout_constraintEnd_toStartOf="@+id/iv_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_provide_code" />
@@ -77,13 +77,13 @@
             android:layout_marginStart="@dimen/activity_margin"
             android:layout_marginTop="@dimen/welcome_margin"
             android:text="@string/or"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_view_font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_code" />
 
         <TextView
-            android:id="@+id/tv_select_nearby"
+            android:id="@+id/tv_select_near_by"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_margin"
@@ -96,8 +96,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_or" />
 
-        <Spinner
-            android:id="@+id/s_nearby"
+        <!--<Spinner-->
+            <!--android:id="@+id/s_near_by"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="@dimen/activity_margin"-->
+            <!--android:layout_marginLeft="@dimen/activity_margin"-->
+            <!--android:layout_marginRight="@dimen/activity_margin"-->
+            <!--android:layout_marginStart="@dimen/activity_margin"-->
+            <!--android:layout_marginTop="@dimen/welcome_margin"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/tv_select_nearby"-->
+            <!--android:spinnerMode="dropdown"/>-->
+        <Button
+            android:id="@+id/bt_near_by"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_margin"
@@ -107,22 +120,9 @@
             android:layout_marginTop="@dimen/welcome_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_select_nearby"
-            android:spinnerMode="dropdown"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_select_near_by"
+            android:text="@string/placeholder_game" />
 
-        <Button
-            android:id="@+id/bt_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/welcome_margin"
-            android:text="@string/btn_start_game"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/s_nearby" />
     </android.support.constraint.ConstraintLayout>
     <TextView
         android:id="@+id/tv_error_message"

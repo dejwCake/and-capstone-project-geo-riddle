@@ -1,22 +1,30 @@
 package sk.dejw.android.georiddles.ui;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.ListPopupWindow;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -51,12 +59,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ProgressBar mLoadingIndicator;
     @BindView(R.id.et_code)
     EditText mCode;
-    @BindView(R.id.s_nearby)
-    Spinner mNearby;
+    @BindView(R.id.bt_near_by)
+    Button mNearBy;
     @BindView(R.id.iv_search)
     ImageView mSearch;
-    @BindView(R.id.bt_start)
-    Button mStart;
+
+    ListPopupWindow mListPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +80,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mAdapter = new GamesSpinnerArrayAdapter(this,
                 R.layout.game_spinner_item, mListOfGames);
-        mNearby.setAdapter(mAdapter);
+
+        mListPopupWindow = new ListPopupWindow(this);
+        mListPopupWindow.setAdapter(mAdapter);
+        mListPopupWindow.setAnchorView(mNearBy);
+        mListPopupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        mListPopupWindow.setHeight(400);
+
+        mListPopupWindow.setModal(true);
+        mListPopupWindow.setOnItemClickListener(
+                new OnNearByItemClickListener());
+        mNearBy.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mListPopupWindow.show();
+            }
+        });
+
+        mSearch.setOnClickListener(new OnSearchButtonClickListener());
     }
 
     @Override
@@ -100,6 +124,35 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mErrorMessage.setVisibility(View.INVISIBLE);
         mMainLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void showConfirmGameDialog(final Game game) {
+        Log.d(TAG, "showConfirmGameDialog");
+
+        AlertDialog.Builder builder;
+        builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.confirm_dialog_title))
+                .setMessage(getString(R.string.confirm_dialog_text).concat(game.getTitle()))
+                .setPositiveButton(R.string.confirm_dialog_start_game, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        startGame(game);
+                    }
+                })
+                .setNegativeButton(R.string.confirm_dialog_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .show();
+    }
+
+    private void startGame(Game game) {
+        Log.d(TAG, "startGame");
+
+        Toast.makeText(this, "New activity will be loaded", Toast.LENGTH_LONG).show();
+//        Intent intent = new Intent(this, RecipeDetailActivity.class);
+//        intent.putExtra(RecipeDetailActivity.EXTRA_RECIPE, recipe);
+//        startActivity(intent);
     }
 
     private void loadDataFromInternet() {
@@ -132,12 +185,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void swapData(Cursor cursor) {
-        Log.d(TAG, "Swapping for games: " + cursor.getCount());
+        Log.d(TAG, "Swapping for games in cursor: " + cursor.getCount());
 
         ArrayList<Game> listOfGames = GameCursorUtils.getGamesFromCursor(cursor);
-        Log.d(TAG, "Swapping for games: " + listOfGames.size());
-        mAdapter.swapData(listOfGames);
-        mAdapter.notifyDataSetChanged();
+        Log.d(TAG, "Swapping for games in list: " + listOfGames.size());
+//        mAdapter.swapData(listOfGames);
+        mAdapter = new GamesSpinnerArrayAdapter(this,
+                R.layout.game_spinner_item, listOfGames);
+        mListPopupWindow.setAdapter(mAdapter);
     }
 
     @NonNull
@@ -169,11 +224,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    public class FetchGamesTaskCompleteListener implements AsyncTaskCompleteListener<Game[]>
-    {
+    public class FetchGamesTaskCompleteListener implements AsyncTaskCompleteListener<Game[]> {
         @Override
-        public void onTaskComplete(Game[] games)
-        {
+        public void onTaskComplete(Game[] games) {
             Log.d(TAG, "Games downloaded: ".concat(String.valueOf(games.length)));
 
             mLoadingIndicator.setVisibility(View.INVISIBLE);
@@ -185,11 +238,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
-    public class SaveGamesTaskCompleteListener implements AsyncTaskCompleteListener<String>
-    {
+    public class SaveGamesTaskCompleteListener implements AsyncTaskCompleteListener<String> {
         @Override
-        public void onTaskComplete(String result)
-        {
+        public void onTaskComplete(String result) {
             Log.d(TAG, "Recipes saved to db: " + result);
 
             mLoadingIndicator.setVisibility(View.INVISIBLE);
@@ -198,6 +249,38 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             } else {
                 showErrorMessage();
             }
+        }
+    }
+
+    class OnSearchButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            String code = mCode.getText().toString();
+            if (!code.equals("")) {
+                String selection = GameContract.COLUMN_CODE + " = ?";
+                String[] selectionArgs = {code};
+                Cursor searchResult = getContentResolver().query(
+                        GameProvider.Games.GAMES_URI,
+                        null,
+                        selection,
+                        selectionArgs,
+                        GameContract.COLUMN_UUID);
+                Game game = GameCursorUtils.getFirstGameFromCursor(searchResult);
+                if (game != null) {
+                    showConfirmGameDialog(game);
+                } else {
+                    Toast.makeText(MainActivity.this, getString(R.string.code_not_found), Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    class OnNearByItemClickListener implements OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            mListPopupWindow.dismiss();
+            Game game = (Game) parent.getItemAtPosition(position);
+            showConfirmGameDialog(game);
         }
     }
 }

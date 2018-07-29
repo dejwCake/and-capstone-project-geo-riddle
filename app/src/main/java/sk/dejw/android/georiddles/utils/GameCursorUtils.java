@@ -32,12 +32,16 @@ public final class GameCursorUtils {
         final Integer GAME_TITLE = cursor.getColumnIndex(GameContract.COLUMN_TITLE);
         final Integer GAME_CODE = cursor.getColumnIndex(GameContract.COLUMN_CODE);
 
-        cursor.moveToFirst();
-        Game game = new Game(
-                UUID.fromString(cursor.getString(GAME_UUID)),
-                cursor.getString(GAME_TITLE),
-                cursor.getString(GAME_CODE)
-        );
-        return game;
+        if(cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            Game game = new Game(
+                    UUID.fromString(cursor.getString(GAME_UUID)),
+                    cursor.getString(GAME_TITLE),
+                    cursor.getString(GAME_CODE)
+            );
+            return game;
+        } else {
+            return null;
+        }
     }
 }

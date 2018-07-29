@@ -11,9 +11,17 @@
     <string name="welcome">Welcome to GeoRiddles</string>
     <string name="provide_code">Please provide the code for the game</string>
     <string name="placeholder_code">code</string>
+    <string name="placeholder_game">Select a game</string>
     <string name="or">or</string>
     <string name="select_nearby">select from nearby games</string>
     <string name="btn_start_game">Start Game</string>
     <string name="spinner_dummy_text">Spinner text</string>
+
+    <string name="code_not_found">Code not found.</string>
+
+    <string name="confirm_dialog_title">Confirm game</string>
+    <string name="confirm_dialog_text">Would you like to start the game with title: </string>
+    <string name="confirm_dialog_cancel">Cancel</string>
+    <string name="confirm_dialog_start_game">Start Game</string>
 
 </resources>
