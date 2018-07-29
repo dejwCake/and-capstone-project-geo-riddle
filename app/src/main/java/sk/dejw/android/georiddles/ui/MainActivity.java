@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        //TODO Load only near by
         return new CursorLoader(this,
                 GameProvider.Games.GAMES_URI,
                 null,

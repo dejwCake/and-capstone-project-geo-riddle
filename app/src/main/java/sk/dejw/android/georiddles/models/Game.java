@@ -10,6 +10,7 @@ public class Game implements Parcelable {
     private String title;
     private String code;
 
+    //TODO add location
     public Game(UUID vUuid, String vTitle, String vCode)
     {
         uuid = vUuid;
