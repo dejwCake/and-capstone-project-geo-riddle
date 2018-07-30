@@ -16,4 +16,7 @@ public class GeoRiddlesDatabase {
     @Table(GameContract.class)
     public static final String GAMES = "games";
 
+    @Table(RiddleContract.class)
+    public static final String RIDDLES = "riddles";
+
 }
