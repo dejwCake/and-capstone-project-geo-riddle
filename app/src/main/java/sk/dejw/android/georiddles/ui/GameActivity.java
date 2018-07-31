@@ -37,6 +37,7 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
     private static final String TAG = GameActivity.class.getSimpleName();
     public static final String BUNDLE_GAME = "game";
     public static final String BUNDLE_RIDDLES = "riddles";
+    public static final int REQUEST_CODE = 1256;
 
     private static final int RIDDLES_FIRST_ATTEMPT_LOADER_ID = 152;
     private static final int RIDDLES_SECOND_ATTEMPT_LOADER_ID = 153;
@@ -94,7 +95,7 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
     public void onResume() {
         super.onResume();
 
-        if (mRiddles == null) {
+        if (mRiddles == null || mRiddles.size() == 0) {
             loadRiddlesFromDb(RIDDLES_FIRST_ATTEMPT_LOADER_ID);
         }
     }

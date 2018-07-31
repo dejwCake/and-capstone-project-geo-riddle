@@ -28,6 +28,14 @@ public class Riddle implements Parcelable {
         this.id = id;
     }
 
+    public UUID getGameUuid() {
+        return gameUuid;
+    }
+
+    public void setGameUuid(UUID gameUuid) {
+        this.gameUuid = gameUuid;
+    }
+
     public String getTitle() {
         return title;
     }
