@@ -2,6 +2,9 @@ package sk.dejw.android.georiddles.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -9,11 +12,12 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,7 @@ import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
 import sk.dejw.android.georiddles.provider.RiddleContract;
 import sk.dejw.android.georiddles.provider.RiddleProvider;
+import sk.dejw.android.georiddles.services.DownloadRiddlesIntentService;
 import sk.dejw.android.georiddles.utils.RiddleCursorUtils;
 
 public class GameActivity extends AppCompatActivity implements RiddleListFragment.OnRiddleClickListener, LoaderManager.LoaderCallbacks<Cursor> {
@@ -34,8 +39,9 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
     private static final int RIDDLES_FIRST_ATTEMPT_LOADER_ID = 152;
     private static final int RIDDLES_SECOND_ATTEMPT_LOADER_ID = 153;
 
-    Game mGame = null;
-    ArrayList<Riddle> mRiddles;
+    private Game mGame = null;
+    private ArrayList<Riddle> mRiddles;
+    private Bundle mSavedInstanceState;
 
     private boolean mTwoPane;
 
@@ -43,10 +49,13 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
     TextView mErrorMessage;
     @BindView(R.id.pb_loading_indicator)
     ProgressBar mLoadingIndicator;
+    @BindView(R.id.game_main_content)
+    LinearLayout mGameMainContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSavedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_game);
 
         Intent startingIntent = getIntent();
@@ -67,22 +76,50 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
                 mRiddles = savedInstanceState.getParcelableArrayList(BUNDLE_RIDDLES);
             }
         }
-        Log.d(TAG, "Game: " + mGame.getTitle());
 
+        Log.d(TAG, "Game: " + mGame.getTitle());
         setTitle(mGame.getTitle());
 
-        //TODO download riddles if not downloaded yet.
-        if(mRiddles.size() == 0) {
-            loadRiddlesFromDb();
+        if (mRiddles.size() == 0) {
+            loadRiddlesFromDb(RIDDLES_FIRST_ATTEMPT_LOADER_ID);
         } else {
-            setupFragments(savedInstanceState);
+            setupFragments();
         }
-
     }
 
-    private void setupFragments(Bundle savedInstanceState) {
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mRiddles == null) {
+            loadRiddlesFromDb(RIDDLES_FIRST_ATTEMPT_LOADER_ID);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(BUNDLE_GAME, mGame);
+        outState.putParcelableArrayList(BUNDLE_RIDDLES, mRiddles);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void showErrorMessage() {
+        Log.d(TAG, "showErrorMessage");
+
+        mGameMainContent.setVisibility(View.INVISIBLE);
+        mErrorMessage.setVisibility(View.VISIBLE);
+    }
+
+    private void showDataView() {
+        Log.d(TAG, "showDataView");
+
+        mErrorMessage.setVisibility(View.INVISIBLE);
+        mGameMainContent.setVisibility(View.VISIBLE);
+    }
+
+    private void setupFragments() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (savedInstanceState == null) {
+        if (mSavedInstanceState == null) {
             RiddleListFragment riddleListFragment = RiddleListFragment.newInstance(mRiddles);
             fragmentManager.beginTransaction()
                     .add(R.id.game_container, riddleListFragment)
@@ -92,11 +129,19 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
         if (findViewById(R.id.riddle_container) != null) {
             mTwoPane = true;
 
-            if (savedInstanceState == null) {
+            if (mSavedInstanceState == null) {
 
                 RiddleFragment riddleFragment = new RiddleFragment();
-//                riddleFragment.setRecipe(mRecipe);
-//                riddleFragment.setRecipeStepPosition(0);
+                Riddle activeRiddle = null;
+                for (Riddle riddle : mRiddles) {
+                    if (riddle.isActive() && activeRiddle == null) {
+                        activeRiddle = riddle;
+                    }
+                }
+                if (activeRiddle == null) {
+                    activeRiddle = mRiddles.get(0);
+                }
+                riddleFragment.setRiddle(activeRiddle);
 
                 fragmentManager.beginTransaction()
                         .add(R.id.riddle_container, riddleFragment)
@@ -107,38 +152,52 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
         }
     }
 
-    private void loadRiddlesFromDb() {
+    private void loadRiddlesFromDb(int attempt) {
         Log.d(TAG, "loadRiddlesFromDb");
 
         mLoadingIndicator.setVisibility(View.VISIBLE);
-        getSupportLoaderManager().initLoader(RIDDLES_FIRST_ATTEMPT_LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(attempt, null, this);
+    }
+
+    private void loadRiddlesFromInternet() {
+        Log.d(TAG, "loadRiddlesFromInternet");
+
+        Intent startIntent = new Intent(this, DownloadRiddlesIntentService.class);
+        startIntent.putExtra(DownloadRiddlesIntentService.RECEIVER, new DownloadReceiver(new Handler()));
+        startIntent.putExtra(DownloadRiddlesIntentService.GAME, mGame);
+        startService(startIntent);
+
+        mLoadingIndicator.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onRiddleSelected(int riddleId) {
         Log.d(TAG, "onRiddleSelected");
-        if (mTwoPane) {
-            RiddleFragment riddleFragment = new RiddleFragment();
-//            riddleFragment.setRiddle(mRecipe);
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.riddle_container, riddleFragment)
-                    .commit();
-        } else {
-            //TODO add activity
-//            Bundle bundle = new Bundle();
-//
-//            final Intent intent = new Intent(this, RiddleActivity.class);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
+        Riddle selectedRiddle = null;
+        for (Riddle riddle : mRiddles) {
+            if (riddle.getId() == riddleId) {
+                selectedRiddle = riddle;
+            }
         }
-    }
+        if (selectedRiddle != null && (selectedRiddle.isActive() || selectedRiddle.isRiddleSolved())) {
+            if (mTwoPane) {
+                RiddleFragment riddleFragment = new RiddleFragment();
+                riddleFragment.setRiddle(selectedRiddle);
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelable(BUNDLE_GAME, mGame);
-        outState.putParcelableArrayList(BUNDLE_RIDDLES, mRiddles);
-        super.onSaveInstanceState(outState);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.riddle_container, riddleFragment)
+                        .commit();
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(RiddleFragment.BUNDLE_RIDDLE, selectedRiddle);
+
+                final Intent intent = new Intent(this, RiddleActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.cannot_be_selected), Toast.LENGTH_LONG).show();
+        }
     }
 
     @NonNull
@@ -158,25 +217,57 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         Log.d(TAG, "Games loaded: " + String.valueOf(data.getCount()));
 
-        if(loader.getId() == RIDDLES_FIRST_ATTEMPT_LOADER_ID) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (data.getCount() != 0) {
-                mRiddles = RiddleCursorUtils.getRiddlesFromCursor(data);
-                setupFragments();
-            } else {
-                showErrorMessage();
-            }
-        }
-        if (data.getCount() != 0) {
-            showDataView();
-            swapData(data);
-        } else {
-            showErrorMessage();
+        switch (loader.getId()) {
+            case RIDDLES_FIRST_ATTEMPT_LOADER_ID:
+                mLoadingIndicator.setVisibility(View.INVISIBLE);
+                if (data.getCount() != 0) {
+                    mRiddles = RiddleCursorUtils.getRiddlesFromCursor(data);
+                    setupFragments();
+                } else {
+                    loadRiddlesFromInternet();
+                }
+                break;
+            case RIDDLES_SECOND_ATTEMPT_LOADER_ID:
+                mLoadingIndicator.setVisibility(View.INVISIBLE);
+                if (data.getCount() != 0) {
+                    mRiddles = RiddleCursorUtils.getRiddlesFromCursor(data);
+                    setupFragments();
+                } else {
+                    showErrorMessage();
+                }
+                break;
         }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
+    }
+
+    private class DownloadReceiver extends ResultReceiver {
+        public DownloadReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            super.onReceiveResult(resultCode, resultData);
+
+            switch (resultCode) {
+                case DownloadRiddlesIntentService.DOWNLOAD_SUCCESS:
+                    mLoadingIndicator.setProgress(50);
+                    break;
+                case DownloadRiddlesIntentService.SAVE_SUCCESS:
+                    mLoadingIndicator.setProgress(100);
+                    showDataView();
+                    loadRiddlesFromDb(RIDDLES_SECOND_ATTEMPT_LOADER_ID);
+                    break;
+                case DownloadRiddlesIntentService.DOWNLOAD_ERROR:
+                case DownloadRiddlesIntentService.SAVE_ERROR:
+                    showErrorMessage();
+                    break;
+
+            }
+        }
     }
 }

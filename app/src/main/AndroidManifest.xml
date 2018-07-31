@@ -24,9 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.GameActivity"
-            android:parentActivityName=".ui.MainActivity"
-            android:launchMode="singleTop"></activity>
+        <activity
+            android:name=".ui.GameActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.MainActivity" />
+
+        <service
+            android:name=".services.DownloadRiddlesIntentService"
+            android:exported="false" />
+
+        <activity android:name=".ui.RiddleActivity"></activity>
     </application>
 
 </manifest>

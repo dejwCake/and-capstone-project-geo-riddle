@@ -2,6 +2,7 @@ package sk.dejw.android.georiddles.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -94,8 +95,8 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
     }
 
     @Override
-    public void onSaveInstanceState(Bundle currentState) {
-        currentState.putParcelableArrayList(RIDDLES, mRiddles);
-        super.onSaveInstanceState(currentState);
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelableArrayList(RIDDLES, mRiddles);
+        super.onSaveInstanceState(outState);
     }
 }

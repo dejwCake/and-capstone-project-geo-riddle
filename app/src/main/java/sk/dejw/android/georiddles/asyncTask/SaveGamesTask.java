@@ -2,7 +2,6 @@ package sk.dejw.android.georiddles.asyncTask;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.AsyncTask;
 
 import sk.dejw.android.georiddles.models.Game;
@@ -31,15 +30,6 @@ public class SaveGamesTask extends AsyncTask<Game[], Void, String> {
     protected String doInBackground(Game[]... params) {
         Game[] games = params[0];
         try {
-
-            Cursor cursor = mContext.getContentResolver().query(
-                    GameProvider.Games.GAMES_URI,
-                    null,
-                    null,
-                    null,
-                    GameContract.COLUMN_UUID
-            );
-//
             for (int i = 0; i < games.length; i++) {
                 ContentValues newGame = new ContentValues();
                 newGame.put(GameContract.COLUMN_UUID, games[i].getUuid().toString());

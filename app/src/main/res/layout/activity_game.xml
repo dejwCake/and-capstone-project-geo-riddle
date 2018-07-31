@@ -3,19 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/game_container"
+    <LinearLayout
+        android:id="@+id/game_main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/game_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/text_view_padding"
+        android:layout_marginLeft="@dimen/text_view_padding"
         android:layout_marginRight="@dimen/text_view_padding"
         android:layout_marginStart="@dimen/text_view_padding"
-        android:layout_marginLeft="@dimen/text_view_padding"
         android:layout_marginTop="@dimen/text_view_padding"
         android:text="@string/data_error_message"
         android:textSize="@dimen/text_view_font_size_medium"

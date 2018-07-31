@@ -32,8 +32,7 @@ public class FetchGamesTask extends AsyncTask<String, Void, Game[]> {
         Log.d(TAG, "Request url is " + requestUrl.toString());
 
         try {
-            String jsonResponse = GameNetworkUtils
-                    .getResponseFromHttpUrl(requestUrl);
+            String jsonResponse = GameNetworkUtils.getResponseFromHttpUrl(requestUrl);
 
             return GameJsonUtils.getGamesFromJson(jsonResponse);
 

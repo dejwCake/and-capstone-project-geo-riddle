@@ -11,15 +11,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class GameNetworkUtils {
+import sk.dejw.android.georiddles.models.Game;
 
-    private static final String TAG = GameNetworkUtils.class.getSimpleName();
+public class RiddleNetworkUtils {
+
+    private static final String TAG = RiddleNetworkUtils.class.getSimpleName();
 
     private static final String URL = "http://georiddles.dejw.sk/games";
 
-    public static java.net.URL buildUrl(Context context) {
+    public static java.net.URL buildUrl(Context context, Game game) {
         Uri builtUri = Uri.parse(URL);
         builtUri = builtUri.buildUpon()
+                .appendPath(game.getUuid().toString())
                 .build();
 
         URL url = null;
