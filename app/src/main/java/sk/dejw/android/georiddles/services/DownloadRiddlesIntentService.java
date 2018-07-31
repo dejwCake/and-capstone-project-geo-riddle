@@ -14,7 +14,7 @@ import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
 import sk.dejw.android.georiddles.provider.RiddleContract;
 import sk.dejw.android.georiddles.provider.RiddleProvider;
-import sk.dejw.android.georiddles.utils.RiddleJsonUtils;
+import sk.dejw.android.georiddles.utils.json.RiddleJsonUtils;
 import sk.dejw.android.georiddles.utils.network.RiddleNetworkUtils;
 
 public class DownloadRiddlesIntentService extends IntentService {

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,11 +32,6 @@ public class GamesSpinnerArrayAdapter extends ArrayAdapter<Game> {
         mInflater = LayoutInflater.from(context);
         mResource = resource;
         mGamesList = games;
-    }
-
-    public void swapData(ArrayList<Game> newData) {
-        mGamesList = newData;
-        notifyDataSetChanged();
     }
 
     @Override

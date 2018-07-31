@@ -16,13 +16,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +36,7 @@ import sk.dejw.android.georiddles.asyncTask.SaveGamesTask;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.provider.GameContract;
 import sk.dejw.android.georiddles.provider.GameProvider;
-import sk.dejw.android.georiddles.utils.GameCursorUtils;
+import sk.dejw.android.georiddles.utils.cursor.GameCursorUtils;
 import sk.dejw.android.georiddles.utils.network.GlobalNetworkUtils;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {

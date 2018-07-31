@@ -1,4 +1,4 @@
-package sk.dejw.android.georiddles.utils;
+package sk.dejw.android.georiddles.utils.json;
 
 import com.google.gson.Gson;
 

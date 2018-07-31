@@ -28,7 +28,8 @@ import sk.dejw.android.georiddles.models.Riddle;
 import sk.dejw.android.georiddles.provider.RiddleContract;
 import sk.dejw.android.georiddles.provider.RiddleProvider;
 import sk.dejw.android.georiddles.services.DownloadRiddlesIntentService;
-import sk.dejw.android.georiddles.utils.RiddleCursorUtils;
+import sk.dejw.android.georiddles.utils.cursor.RiddleCursorUtils;
+import sk.dejw.android.georiddles.utils.network.GlobalNetworkUtils;
 
 public class GameActivity extends AppCompatActivity implements RiddleListFragment.OnRiddleClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -162,12 +163,22 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
     private void loadRiddlesFromInternet() {
         Log.d(TAG, "loadRiddlesFromInternet");
 
-        Intent startIntent = new Intent(this, DownloadRiddlesIntentService.class);
-        startIntent.putExtra(DownloadRiddlesIntentService.RECEIVER, new DownloadReceiver(new Handler()));
-        startIntent.putExtra(DownloadRiddlesIntentService.GAME, mGame);
-        startService(startIntent);
+        if (GlobalNetworkUtils.hasConnection(this)) {
+            Log.d(TAG, "Internet working.");
 
-        mLoadingIndicator.setVisibility(View.VISIBLE);
+            Intent startIntent = new Intent(this, DownloadRiddlesIntentService.class);
+            startIntent.putExtra(DownloadRiddlesIntentService.RECEIVER, new DownloadReceiver(new Handler()));
+            startIntent.putExtra(DownloadRiddlesIntentService.GAME, mGame);
+            startService(startIntent);
+
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        } else {
+            Log.d(TAG, "Internet not working.");
+
+            loadRiddlesFromDb(RIDDLES_SECOND_ATTEMPT_LOADER_ID);
+        }
+
+
     }
 
     @Override

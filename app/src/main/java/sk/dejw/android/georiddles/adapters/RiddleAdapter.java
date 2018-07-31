@@ -48,7 +48,7 @@ public class RiddleAdapter extends RecyclerView.Adapter<RiddleAdapter.RiddleView
         holder.riddleTitleTextView.setText(riddle.getTitle());
         holder.itemPosition = position;
         holder.riddle = riddle;
-        if(riddle.isActive() || riddle.isRiddleSolved()) {
+        if (riddle.isActive() || riddle.isRiddleSolved()) {
             holder.riddleItemConstraintLayout.setEnabled(true);
         } else {
             holder.riddleItemConstraintLayout.setEnabled(false);

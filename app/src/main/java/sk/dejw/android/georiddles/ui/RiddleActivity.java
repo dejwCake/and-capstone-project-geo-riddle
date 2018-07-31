@@ -6,9 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Riddle;
 
@@ -22,7 +19,7 @@ public class RiddleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_riddle);
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
             Intent startingIntent = getIntent();
             if (startingIntent != null) {
                 Log.d(TAG, "Intent: " + startingIntent.toString());

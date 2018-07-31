@@ -7,7 +7,7 @@ import android.util.Log;
 import java.net.URL;
 
 import sk.dejw.android.georiddles.models.Game;
-import sk.dejw.android.georiddles.utils.GameJsonUtils;
+import sk.dejw.android.georiddles.utils.json.GameJsonUtils;
 import sk.dejw.android.georiddles.utils.network.GameNetworkUtils;
 
 public class FetchGamesTask extends AsyncTask<String, Void, Game[]> {

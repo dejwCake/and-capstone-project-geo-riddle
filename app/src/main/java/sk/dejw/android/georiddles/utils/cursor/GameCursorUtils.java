@@ -1,4 +1,4 @@
-package sk.dejw.android.georiddles.utils;
+package sk.dejw.android.georiddles.utils.cursor;
 
 import android.database.Cursor;
 
@@ -32,7 +32,7 @@ public final class GameCursorUtils {
         final Integer GAME_TITLE = cursor.getColumnIndex(GameContract.COLUMN_TITLE);
         final Integer GAME_CODE = cursor.getColumnIndex(GameContract.COLUMN_CODE);
 
-        if(cursor.getCount() > 0) {
+        if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             Game game = new Game(
                     UUID.fromString(cursor.getString(GAME_UUID)),

@@ -52,8 +52,8 @@
             android:layout_marginStart="@dimen/activity_margin"
             android:layout_marginTop="@dimen/welcome_margin"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/placeholder_code"
+            android:inputType="textPersonName"
             app:layout_constraintEnd_toStartOf="@+id/iv_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_provide_code" />
@@ -106,10 +106,10 @@
             android:layout_marginRight="@dimen/activity_margin"
             android:layout_marginStart="@dimen/activity_margin"
             android:layout_marginTop="@dimen/welcome_margin"
+            android:text="@string/placeholder_game"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_select_near_by"
-            android:text="@string/placeholder_game" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_select_near_by" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -118,9 +118,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/text_view_padding"
+        android:layout_marginLeft="@dimen/text_view_padding"
         android:layout_marginRight="@dimen/text_view_padding"
         android:layout_marginStart="@dimen/text_view_padding"
-        android:layout_marginLeft="@dimen/text_view_padding"
         android:layout_marginTop="@dimen/text_view_padding"
         android:text="@string/data_error_message"
         android:textSize="@dimen/text_view_font_size_medium"

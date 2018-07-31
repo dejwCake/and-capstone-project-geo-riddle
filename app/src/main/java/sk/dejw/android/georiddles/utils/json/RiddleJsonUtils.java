@@ -1,4 +1,4 @@
-package sk.dejw.android.georiddles.utils;
+package sk.dejw.android.georiddles.utils.json;
 
 import com.google.gson.Gson;
 
@@ -8,14 +8,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
 
 public final class RiddleJsonUtils {
 
     public static ArrayList<Riddle> getRiddlesFromJson(String jsonString) throws JSONException {
 
-        //TODO change to array list
         ArrayList<Riddle> riddles = new ArrayList<Riddle>();
 
         JSONArray jsonArray = new JSONArray(jsonString);
