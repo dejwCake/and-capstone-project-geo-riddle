@@ -16,6 +16,10 @@
             android:name=".provider.generated.GameProvider"
             android:authorities="sk.dejw.android.georiddles.games"
             android:exported="true" />
+        <provider
+            android:name=".provider.generated.RiddleProvider"
+            android:authorities="sk.dejw.android.georiddles.riddles"
+            android:exported="true" />
 
         <service
             android:name=".services.DownloadRiddlesIntentService"

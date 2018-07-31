@@ -1,6 +1,7 @@
 package sk.dejw.android.georiddles.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -67,14 +68,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         if (savedInstanceState == null || !savedInstanceState.containsKey(BUNDLE_GAMES)) {
             mListOfGames = new ArrayList<Game>();
         } else {
             mListOfGames = savedInstanceState.getParcelableArrayList(BUNDLE_GAMES);
         }
-        ButterKnife.bind(this);
 
         mAdapter = new GamesSpinnerArrayAdapter(this,
                 R.layout.game_spinner_item, mListOfGames);
@@ -100,12 +102,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume");
 
         loadDataFromInternet();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState");
+
         outState.putParcelableArrayList(BUNDLE_GAMES, mListOfGames);
         super.onSaveInstanceState(outState);
     }
@@ -147,10 +152,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private void startGame(Game game) {
         Log.d(TAG, "startGame");
 
-        Toast.makeText(this, "New activity will be loaded", Toast.LENGTH_LONG).show();
-//        Intent intent = new Intent(this, RecipeDetailActivity.class);
-//        intent.putExtra(RecipeDetailActivity.EXTRA_RECIPE, recipe);
-//        startActivity(intent);
+//        Toast.makeText(this, "New activity will be loaded", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra(GameActivity.BUNDLE_GAME, game);
+        startActivity(intent);
     }
 
     private void loadDataFromInternet() {
@@ -196,6 +201,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        Log.d(TAG, "onCreateLoader");
+
         //TODO Load only near by
         return new CursorLoader(this,
                 GameProvider.Games.GAMES_URI,
@@ -220,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
+        Log.d(TAG, "onLoaderReset");
     }
 
     public class FetchGamesTaskCompleteListener implements AsyncTaskCompleteListener<Game[]> {
@@ -240,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public class SaveGamesTaskCompleteListener implements AsyncTaskCompleteListener<String> {
         @Override
         public void onTaskComplete(String result) {
-            Log.d(TAG, "Recipes saved to db: " + result);
+            Log.d(TAG, "Games saved to db: " + result);
 
             mLoadingIndicator.setVisibility(View.INVISIBLE);
             if (result.equals(SaveGamesTask.OK_RESULT)) {
@@ -254,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     class OnSearchButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            Log.d(TAG, "OnSearchButtonClickListener onClick");
             String code = mCode.getText().toString();
             if (!code.equals("")) {
                 String selection = GameContract.COLUMN_CODE + " = ?";
@@ -277,6 +285,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     class OnNearByItemClickListener implements OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Log.d(TAG, "OnNearByItemClickListener onItemClick");
+
             mListPopupWindow.dismiss();
             Game game = (Game) parent.getItemAtPosition(position);
             showConfirmGameDialog(game);

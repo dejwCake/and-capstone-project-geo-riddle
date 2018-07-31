@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
@@ -58,6 +59,7 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
         super.onCreate(savedInstanceState);
         mSavedInstanceState = savedInstanceState;
         setContentView(R.layout.activity_game);
+        ButterKnife.bind(this);
 
         Intent startingIntent = getIntent();
         if (startingIntent != null) {
@@ -81,7 +83,7 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
         Log.d(TAG, "Game: " + mGame.getTitle());
         setTitle(mGame.getTitle());
 
-        if (mRiddles.size() == 0) {
+        if (mRiddles == null || mRiddles.size() == 0) {
             loadRiddlesFromDb(RIDDLES_FIRST_ATTEMPT_LOADER_ID);
         } else {
             setupFragments();

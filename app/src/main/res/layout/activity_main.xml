@@ -1,136 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cl_main"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_welcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/welcome_margin"
-            android:text="@string/welcome"
-            android:textAppearance="@android:style/TextAppearance.Material.Large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="NewApi" />
-
-        <TextView
-            android:id="@+id/tv_provide_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/welcome_margin"
-            android:text="@string/provide_code"
-            android:textSize="@dimen/text_view_font_size_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_welcome" />
-
-        <EditText
-            android:id="@+id/et_code"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:layout_marginEnd="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/welcome_margin"
-            android:ems="10"
-            android:hint="@string/placeholder_code"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toStartOf="@+id/iv_search"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_provide_code" />
-
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="@dimen/search_image_width"
-            android:layout_height="@dimen/search_image_height"
-            android:layout_marginEnd="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/et_code"
-            app:srcCompat="@android:drawable/ic_menu_search" />
-
-        <TextView
-            android:id="@+id/tv_or"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/welcome_margin"
-            android:text="@string/or"
-            android:textSize="@dimen/text_view_font_size_medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_code" />
-
-        <TextView
-            android:id="@+id/tv_select_near_by"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/welcome_margin"
-            android:text="@string/select_nearby"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_or" />
-
-        <Button
-            android:id="@+id/bt_near_by"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_main"
             android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginStart="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/welcome_margin"
+                android:text="@string/welcome"
+                android:textAppearance="@android:style/TextAppearance.Material.Large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="NewApi" />
+
+            <TextView
+                android:id="@+id/tv_provide_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginStart="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/welcome_margin"
+                android:text="@string/provide_code"
+                android:textSize="@dimen/text_view_font_size_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_welcome" />
+
+            <EditText
+                android:id="@+id/et_code"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginStart="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/welcome_margin"
+                android:ems="10"
+                android:hint="@string/placeholder_code"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toStartOf="@+id/iv_search"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_provide_code" />
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="@dimen/search_image_width"
+                android:layout_height="@dimen/search_image_height"
+                android:layout_marginEnd="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/et_code"
+                app:srcCompat="@android:drawable/ic_menu_search" />
+
+            <TextView
+                android:id="@+id/tv_or"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginStart="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/welcome_margin"
+                android:text="@string/or"
+                android:textSize="@dimen/text_view_font_size_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_code" />
+
+            <TextView
+                android:id="@+id/tv_select_near_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginStart="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/welcome_margin"
+                android:text="@string/select_nearby"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_or" />
+
+            <Button
+                android:id="@+id/bt_near_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginStart="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/welcome_margin"
+                android:text="@string/placeholder_game"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_select_near_by" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_error_message"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginStart="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/welcome_margin"
-            android:text="@string/placeholder_game"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_select_near_by" />
+            android:layout_marginEnd="@dimen/text_view_padding"
+            android:layout_marginLeft="@dimen/text_view_padding"
+            android:layout_marginRight="@dimen/text_view_padding"
+            android:layout_marginStart="@dimen/text_view_padding"
+            android:layout_marginTop="@dimen/text_view_padding"
+            android:text="@string/data_error_message"
+            android:textSize="@dimen/text_view_font_size_medium"
+            android:visibility="invisible" />
 
-    </android.support.constraint.ConstraintLayout>
+        <ProgressBar
+            android:id="@+id/pb_loading_indicator"
+            android:layout_width="@dimen/progress_bar_width"
+            android:layout_height="@dimen/progress_bar_height"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/tv_error_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/text_view_padding"
-        android:layout_marginLeft="@dimen/text_view_padding"
-        android:layout_marginRight="@dimen/text_view_padding"
-        android:layout_marginStart="@dimen/text_view_padding"
-        android:layout_marginTop="@dimen/text_view_padding"
-        android:text="@string/data_error_message"
-        android:textSize="@dimen/text_view_font_size_medium"
-        android:visibility="invisible" />
-
-    <ProgressBar
-        android:id="@+id/pb_loading_indicator"
-        android:layout_width="@dimen/progress_bar_width"
-        android:layout_height="@dimen/progress_bar_height"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
-
-</FrameLayout>
+    </FrameLayout>
+</ScrollView>
