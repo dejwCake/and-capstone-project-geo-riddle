@@ -19,7 +19,7 @@ import sk.dejw.android.georiddles.adapters.RiddleAdapter;
 import sk.dejw.android.georiddles.models.Riddle;
 
 public class RiddleListFragment extends Fragment implements RiddleAdapter.RiddleAdapterOnClickHandler {
-    private static final String RIDDLES = "riddles";
+    private static final String BUNDLE_RIDDLES = "riddles";
 
     private ArrayList<Riddle> mRiddles;
 
@@ -36,7 +36,7 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
     public static RiddleListFragment newInstance(ArrayList<Riddle> riddles) {
         RiddleListFragment fragment = new RiddleListFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(RIDDLES, riddles);
+        args.putParcelableArrayList(BUNDLE_RIDDLES, riddles);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,7 +45,7 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mRiddles = getArguments().getParcelableArrayList(RIDDLES);
+            mRiddles = getArguments().getParcelableArrayList(BUNDLE_RIDDLES);
         }
     }
 
@@ -53,7 +53,7 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (mRiddles == null && savedInstanceState != null) {
-            mRiddles = savedInstanceState.getParcelableArrayList(RIDDLES);
+            mRiddles = savedInstanceState.getParcelableArrayList(BUNDLE_RIDDLES);
         }
 
         // Inflate the layout for this fragment
@@ -96,7 +96,7 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelableArrayList(RIDDLES, mRiddles);
+        outState.putParcelableArrayList(BUNDLE_RIDDLES, mRiddles);
         super.onSaveInstanceState(outState);
     }
 }

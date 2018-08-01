@@ -29,4 +29,10 @@
     -->
     <string name="cannot_be_selected">This riddle cannot be selected for now.</string>
 
+    <!--
+    - Riddle Fragment
+    -->
+    <string name="directions">Directions</string>
+    <string name="map">Map</string>
+
 </resources>

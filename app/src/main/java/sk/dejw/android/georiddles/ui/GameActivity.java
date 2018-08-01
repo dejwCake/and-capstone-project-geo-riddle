@@ -135,7 +135,6 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
 
             if (mSavedInstanceState == null) {
 
-                RiddleFragment riddleFragment = new RiddleFragment();
                 Riddle activeRiddle = null;
                 for (Riddle riddle : mRiddles) {
                     if (riddle.isActive() && activeRiddle == null) {
@@ -145,8 +144,7 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
                 if (activeRiddle == null) {
                     activeRiddle = mRiddles.get(0);
                 }
-                riddleFragment.setRiddle(activeRiddle);
-
+                RiddleFragment riddleFragment = RiddleFragment.newInstance(activeRiddle);
                 fragmentManager.beginTransaction()
                         .add(R.id.riddle_container, riddleFragment)
                         .commit();
@@ -195,9 +193,7 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
         }
         if (selectedRiddle != null && (selectedRiddle.isActive() || selectedRiddle.isRiddleSolved())) {
             if (mTwoPane) {
-                RiddleFragment riddleFragment = new RiddleFragment();
-                riddleFragment.setRiddle(selectedRiddle);
-
+                RiddleFragment riddleFragment = RiddleFragment.newInstance(selectedRiddle);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.riddle_container, riddleFragment)
                         .commit();
