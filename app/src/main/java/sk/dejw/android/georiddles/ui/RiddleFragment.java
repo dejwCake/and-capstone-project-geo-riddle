@@ -9,7 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,7 +22,7 @@ import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.adapters.RiddlePagerAdapter;
 import sk.dejw.android.georiddles.models.Riddle;
 
-public class RiddleFragment extends Fragment {
+public class RiddleFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = RiddleFragment.class.getSimpleName();
 
     public static final String BUNDLE_RIDDLE = "riddle";
@@ -59,9 +64,12 @@ public class RiddleFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_riddle, container, false);
         ButterKnife.bind(this, rootView);
 
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        mapFragment.getMapAsync(this);
+
         RiddlePagerAdapter riddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
         riddlePagerAdapter.addFragment(RiddleDirectionsFragment.newInstance(mRiddle), getString(R.string.directions));
-        riddlePagerAdapter.addFragment(SupportMapFragment.newInstance(), getString(R.string.map));
+        riddlePagerAdapter.addFragment(mapFragment, getString(R.string.map));
         mViewPager.setAdapter(riddlePagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
@@ -77,5 +85,13 @@ public class RiddleFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelable(BUNDLE_RIDDLE, mRiddle);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng riddleLocation = new LatLng(mRiddle.getGpsLat(), mRiddle.getGpsLng());
+        googleMap.addMarker(new MarkerOptions().position(riddleLocation)
+                .title(mRiddle.getTitle()));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(riddleLocation, 10));
     }
 }
