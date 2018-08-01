@@ -17,6 +17,7 @@ public class RiddlePagerAdapter extends FragmentPagerAdapter {
     public RiddlePagerAdapter(FragmentManager manager) {
         super(manager);
     }
+
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);
@@ -35,5 +36,11 @@ public class RiddlePagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
+    }
+
+    public void swapFragmentAtPosition(int position, Fragment fragment, String title) {
+        mFragmentList.set(position, fragment);
+        mFragmentTitleList.set(position, title);
+        notifyDataSetChanged();
     }
 }

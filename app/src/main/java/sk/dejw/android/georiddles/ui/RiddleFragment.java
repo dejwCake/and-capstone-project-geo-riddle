@@ -22,12 +22,14 @@ import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.adapters.RiddlePagerAdapter;
 import sk.dejw.android.georiddles.models.Riddle;
 
-public class RiddleFragment extends Fragment implements OnMapReadyCallback {
+public class RiddleFragment extends Fragment implements OnMapReadyCallback, RiddleDirectionsFragment.OnCheckLocationClickListener {
     private static final String TAG = RiddleFragment.class.getSimpleName();
 
     public static final String BUNDLE_RIDDLE = "riddle";
 
     private Riddle mRiddle;
+    private RiddlePagerAdapter mRiddlePagerAdapter;
+    private SupportMapFragment mMapFragment;
 
     @BindView(R.id.vp_riddle)
     ViewPager mViewPager;
@@ -64,13 +66,20 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback {
         View rootView = inflater.inflate(R.layout.fragment_riddle, container, false);
         ButterKnife.bind(this, rootView);
 
-        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
-        mapFragment.getMapAsync(this);
+        mMapFragment = SupportMapFragment.newInstance();
+        mMapFragment.getMapAsync(this);
 
-        RiddlePagerAdapter riddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
-        riddlePagerAdapter.addFragment(RiddleDirectionsFragment.newInstance(mRiddle), getString(R.string.directions));
-        riddlePagerAdapter.addFragment(mapFragment, getString(R.string.map));
-        mViewPager.setAdapter(riddlePagerAdapter);
+        /**
+         * Based on https://stackoverflow.com/questions/41413150/fragment-tabs-inside-fragment
+         */
+        mRiddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
+        if(!mRiddle.isLocationChecked()) {
+            mRiddlePagerAdapter.addFragment(RiddleDirectionsFragment.newInstance(mRiddle), getString(R.string.tab_directions));
+        } else {
+            mRiddlePagerAdapter.addFragment(RiddleQuestionFragment.newInstance(mRiddle), getString(R.string.tab_question));
+        }
+        mRiddlePagerAdapter.addFragment(mMapFragment, getString(R.string.tab_map));
+        mViewPager.setAdapter(mRiddlePagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
 
@@ -93,5 +102,16 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback {
         googleMap.addMarker(new MarkerOptions().position(riddleLocation)
                 .title(mRiddle.getTitle()));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(riddleLocation, 10));
+    }
+
+    @Override
+    public void onLocation() {
+        //TODO save to db, that location has been checked and also update current riddle
+
+//        mRiddlePagerAdapter.swapFragmentAtPosition(0, RiddleQuestionFragment.newInstance(mRiddle), getString(R.string.tab_question));
+        mRiddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
+        mRiddlePagerAdapter.addFragment(RiddleQuestionFragment.newInstance(mRiddle), getString(R.string.tab_question));
+        mRiddlePagerAdapter.addFragment(mMapFragment, getString(R.string.tab_map));
+        mViewPager.setAdapter(mRiddlePagerAdapter);
     }
 }

@@ -178,8 +178,6 @@ public class GameActivity extends AppCompatActivity implements RiddleListFragmen
 
             loadRiddlesFromDb(RIDDLES_SECOND_ATTEMPT_LOADER_ID);
         }
-
-
     }
 
     @Override

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_question_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/text_view_margin"
+            android:layout_marginLeft="@dimen/text_view_margin"
+            android:layout_marginRight="@dimen/text_view_margin"
+            android:layout_marginStart="@dimen/text_view_margin"
+            android:layout_marginTop="@dimen/question_margin_top"
+            android:text="@string/question_label"
+            android:textSize="@dimen/text_view_font_size_medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_question"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/text_view_margin"
+            android:layout_marginLeft="@dimen/text_view_margin"
+            android:layout_marginRight="@dimen/text_view_margin"
+            android:layout_marginStart="@dimen/text_view_margin"
+            android:layout_marginTop="@dimen/question_margin_top"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/text_view_font_size_small"
+            app:layout_constraintBottom_toTopOf="@+id/et_answer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_question_label"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/et_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_view_margin"
+            android:layout_marginEnd="@dimen/text_view_margin"
+            android:layout_marginLeft="@dimen/text_view_margin"
+            android:layout_marginRight="@dimen/text_view_margin"
+            android:layout_marginStart="@dimen/text_view_margin"
+            app:layout_constraintBottom_toTopOf="@+id/bt_check"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/bt_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/question_button_margin_bottom"
+            android:layout_marginEnd="@dimen/text_view_margin"
+            android:layout_marginLeft="@dimen/text_view_margin"
+            android:layout_marginRight="@dimen/text_view_margin"
+            android:layout_marginStart="@dimen/text_view_margin"
+            android:background="#d9a950"
+            android:drawableLeft="@drawable/ic_check_black_24dp"
+            android:drawableStart="@drawable/ic_check_black_24dp"
+            android:paddingBottom="@dimen/question_button_padding_bottom"
+            android:paddingEnd="@dimen/question_button_padding_right"
+            android:paddingLeft="@dimen/question_button_padding_left"
+            android:paddingRight="@dimen/question_button_padding_right"
+            android:paddingStart="@dimen/question_button_padding_left"
+            android:paddingTop="@dimen/question_button_padding_bottom"
+            android:text="@string/check_the_answer"
+            android:textColor="#e8e9e9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

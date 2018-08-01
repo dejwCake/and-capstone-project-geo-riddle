@@ -32,7 +32,25 @@
     <!--
     - Riddle Fragment
     -->
-    <string name="directions">Directions</string>
-    <string name="map">Map</string>
+    <string name="tab_directions">Directions</string>
+    <string name="tab_map">Map</string>
+    <string name="tab_question">Question</string>
+
+    <!--
+    - Riddle Direction Fragment
+    -->
+    <string name="location_label">Riddle GPS position</string>
+    <string name="gps_lat_label">Lat:</string>
+    <string name="gps_lng_label">Lng:</string>
+    <string name="distance_label">Distance from riddle:</string>
+
+    <string name="action_check_location">Check location</string>
+    <string name="meters">m</string>
+
+    <!--
+    - Riddle Question Fragment
+    -->
+    <string name="question_label">Question</string>
+    <string name="check_the_answer">Check the answer</string>
 
 </resources>

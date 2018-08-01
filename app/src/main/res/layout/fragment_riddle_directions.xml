@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/fl_image_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/imagePlaceholder">
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_location_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="#7000"
+                android:paddingBottom="@dimen/info_box_padding"
+                android:paddingLeft="@dimen/info_box_padding"
+                android:paddingRight="@dimen/info_box_padding"
+                android:paddingTop="@dimen/info_box_padding">
+
+                <TextView
+                    android:id="@+id/tv_location_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_view_margin"
+                    android:layout_marginStart="@dimen/text_view_margin"
+                    android:layout_marginTop="@dimen/text_view_margin"
+                    android:text="@string/location_label"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_view_font_size_small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_gps_lat_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_view_margin"
+                    android:layout_marginStart="@dimen/text_view_margin"
+                    android:text="@string/gps_lat_label"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_view_font_size_small"
+                    app:layout_constraintStart_toEndOf="@+id/tv_location_label"
+                    app:layout_constraintTop_toTopOf="@+id/tv_location_label" />
+
+                <TextView
+                    android:id="@+id/tv_gps_lat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_view_margin"
+                    android:layout_marginStart="@dimen/text_view_margin"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_view_font_size_small"
+                    app:layout_constraintStart_toEndOf="@+id/tv_gps_lat_label"
+                    app:layout_constraintTop_toTopOf="@+id/tv_gps_lat_label" />
+
+                <TextView
+                    android:id="@+id/tv_gps_lng_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gps_lng_label"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_view_font_size_small"
+                    app:layout_constraintStart_toStartOf="@+id/tv_gps_lat_label"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_gps_lat_label" />
+
+                <TextView
+                    android:id="@+id/tv_gps_lng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_view_font_size_small"
+                    app:layout_constraintStart_toEndOf="@+id/tv_gps_lng_label"
+                    app:layout_constraintTop_toTopOf="@+id/tv_gps_lng_label" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </FrameLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_direction_arrow"
+                android:layout_width="@dimen/direction_arrow_height"
+                android:layout_height="@dimen/direction_arrow_width"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_arrow_upward_black_240dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_distance_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_view_margin"
+                android:layout_marginLeft="@dimen/text_view_margin"
+                android:layout_marginStart="@dimen/text_view_margin"
+                android:text="@string/distance_label"
+                android:textSize="@dimen/text_view_font_size_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_view_margin"
+                android:layout_marginStart="@dimen/text_view_margin"
+                android:textSize="@dimen/text_view_font_size_medium"
+                app:layout_constraintStart_toEndOf="@+id/tv_distance_label"
+                app:layout_constraintTop_toTopOf="@+id/tv_distance_label" />
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_check_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:contentDescription="@string/action_check_location"
+        android:src="@drawable/ic_location_off_black_24dp"
+        app:layout_anchor="@id/fl_image_container"
+        app:layout_anchorGravity="bottom|right|end"
+        tools:background="?android:attr/selectableItemBackgroundBorderless" />
+</android.support.design.widget.CoordinatorLayout>
