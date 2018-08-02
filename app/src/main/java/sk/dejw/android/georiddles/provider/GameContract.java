@@ -29,4 +29,12 @@ public class GameContract {
     @DataType(DataType.Type.TEXT)
     @NotNull
     public static final String COLUMN_CODE = "code";
+
+    @DataType(DataType.Type.REAL)
+    @NotNull
+    public static final String COLUMN_GPS_LAT = "gps_lat";
+
+    @DataType(DataType.Type.REAL)
+    @NotNull
+    public static final String COLUMN_GPS_LNG = "gps_lng";
 }

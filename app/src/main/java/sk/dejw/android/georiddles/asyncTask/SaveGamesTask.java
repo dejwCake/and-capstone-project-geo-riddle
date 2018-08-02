@@ -35,6 +35,8 @@ public class SaveGamesTask extends AsyncTask<Game[], Void, String> {
                 newGame.put(GameContract.COLUMN_UUID, games[i].getUuid().toString());
                 newGame.put(GameContract.COLUMN_TITLE, games[i].getTitle());
                 newGame.put(GameContract.COLUMN_CODE, games[i].getCode());
+                newGame.put(GameContract.COLUMN_GPS_LAT, games[i].getGpsLat());
+                newGame.put(GameContract.COLUMN_GPS_LNG, games[i].getGpsLng());
                 if (mContext.getContentResolver().update(GameProvider.Games.GAMES_URI, newGame, GameContract.COLUMN_UUID + " = ?", new String[]{games[i].getUuid().toString()}) == 0) {
                     mContext.getContentResolver().insert(GameProvider.Games.GAMES_URI, newGame);
                 }

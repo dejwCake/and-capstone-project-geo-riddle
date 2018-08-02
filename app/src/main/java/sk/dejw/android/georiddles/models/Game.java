@@ -3,24 +3,33 @@ package sk.dejw.android.georiddles.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.UUID;
 
 public class Game implements Parcelable {
     private UUID uuid;
     private String title;
     private String code;
+    @SerializedName("gps_lat")
+    private double gpsLat;
+    @SerializedName("gps_lng")
+    private double gpsLng;
 
-    //TODO add location
-    public Game(UUID vUuid, String vTitle, String vCode) {
-        uuid = vUuid;
-        title = vTitle;
-        code = vCode;
+    public Game(UUID uuid, String title, String code, double gpsLat, double gpsLng) {
+        this.uuid = uuid;
+        this.title = title;
+        this.code = code;
+        this.gpsLat = gpsLat;
+        this.gpsLng = gpsLng;
     }
 
     public Game(Parcel in) {
         this.uuid = UUID.fromString(in.readString());
         this.title = in.readString();
         this.code = in.readString();
+        this.gpsLat = in.readDouble();
+        this.gpsLng = in.readDouble();
     }
 
     public UUID getUuid() {
@@ -47,11 +56,29 @@ public class Game implements Parcelable {
         this.code = code;
     }
 
+    public double getGpsLat() {
+        return gpsLat;
+    }
+
+    public void setGpsLat(double gpsLat) {
+        this.gpsLat = gpsLat;
+    }
+
+    public double getGpsLng() {
+        return gpsLng;
+    }
+
+    public void setGpsLng(double gpsLng) {
+        this.gpsLng = gpsLng;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(uuid.toString());
         dest.writeString(title);
         dest.writeString(code);
+        dest.writeDouble(gpsLat);
+        dest.writeDouble(gpsLng);
     }
 
     @Override

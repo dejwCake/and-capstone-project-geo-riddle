@@ -34,7 +34,7 @@ public final class GameProvider {
 
         @InexactContentUri(
                 path = Path.GAMES + "/#",
-                name = "LIST_ID",
+                name = "GAME_ID",
                 type = "vnd.android.cursor.item/game",
                 whereColumn = GameContract._ID,
                 pathSegment = 1)

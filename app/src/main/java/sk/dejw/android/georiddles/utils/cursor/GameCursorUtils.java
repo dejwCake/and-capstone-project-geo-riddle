@@ -14,14 +14,17 @@ public final class GameCursorUtils {
         final Integer GAME_UUID = cursor.getColumnIndex(GameContract.COLUMN_UUID);
         final Integer GAME_TITLE = cursor.getColumnIndex(GameContract.COLUMN_TITLE);
         final Integer GAME_CODE = cursor.getColumnIndex(GameContract.COLUMN_CODE);
+        final Integer GAME_GPS_LAT = cursor.getColumnIndex(GameContract.COLUMN_GPS_LAT);
+        final Integer GAME_GPS_LNG = cursor.getColumnIndex(GameContract.COLUMN_GPS_LNG);
 
         ArrayList<Game> list = new ArrayList<>();
         while (cursor.moveToNext()) {
             Game game = new Game(
                     UUID.fromString(cursor.getString(GAME_UUID)),
                     cursor.getString(GAME_TITLE),
-                    cursor.getString(GAME_CODE)
-            );
+                    cursor.getString(GAME_CODE),
+                    cursor.getDouble(GAME_GPS_LAT),
+                    cursor.getDouble(GAME_GPS_LNG));
             list.add(game);
         }
         return list;
@@ -31,14 +34,17 @@ public final class GameCursorUtils {
         final Integer GAME_UUID = cursor.getColumnIndex(GameContract.COLUMN_UUID);
         final Integer GAME_TITLE = cursor.getColumnIndex(GameContract.COLUMN_TITLE);
         final Integer GAME_CODE = cursor.getColumnIndex(GameContract.COLUMN_CODE);
+        final Integer GAME_GPS_LAT = cursor.getColumnIndex(GameContract.COLUMN_GPS_LAT);
+        final Integer GAME_GPS_LNG = cursor.getColumnIndex(GameContract.COLUMN_GPS_LNG);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             Game game = new Game(
                     UUID.fromString(cursor.getString(GAME_UUID)),
                     cursor.getString(GAME_TITLE),
-                    cursor.getString(GAME_CODE)
-            );
+                    cursor.getString(GAME_CODE),
+                    cursor.getDouble(GAME_GPS_LAT),
+                    cursor.getDouble(GAME_GPS_LNG));
             return game;
         } else {
             return null;

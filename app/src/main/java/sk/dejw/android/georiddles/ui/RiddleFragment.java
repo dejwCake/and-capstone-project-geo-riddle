@@ -1,10 +1,15 @@
 package sk.dejw.android.georiddles.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +31,12 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
     private static final String TAG = RiddleFragment.class.getSimpleName();
 
     public static final String BUNDLE_RIDDLE = "riddle";
+    private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 222;
 
     private Riddle mRiddle;
     private RiddlePagerAdapter mRiddlePagerAdapter;
     private SupportMapFragment mMapFragment;
+    private GoogleMap mGoogleMap;
 
     @BindView(R.id.vp_riddle)
     ViewPager mViewPager;
@@ -49,6 +56,8 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mRiddle = getArguments().getParcelable(BUNDLE_RIDDLE);
@@ -59,6 +68,8 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
+
         if (savedInstanceState != null) {
             mRiddle = savedInstanceState.getParcelable(BUNDLE_RIDDLE);
         }
@@ -73,7 +84,7 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
          * Based on https://stackoverflow.com/questions/41413150/fragment-tabs-inside-fragment
          */
         mRiddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
-        if(!mRiddle.isLocationChecked()) {
+        if (!mRiddle.isLocationChecked()) {
             mRiddlePagerAdapter.addFragment(RiddleDirectionsFragment.newInstance(mRiddle), getString(R.string.tab_directions));
         } else {
             mRiddlePagerAdapter.addFragment(RiddleQuestionFragment.newInstance(mRiddle), getString(R.string.tab_question));
@@ -87,25 +98,71 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
     }
 
     public void setRiddle(Riddle riddle) {
+        Log.d(TAG, "setRiddle");
+
         mRiddle = riddle;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState");
+
         outState.putParcelable(BUNDLE_RIDDLE, mRiddle);
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d(TAG, "onMapReady");
+
+        mGoogleMap = googleMap;
+
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        mGoogleMap.setMinZoomPreference(11);
+
         LatLng riddleLocation = new LatLng(mRiddle.getGpsLat(), mRiddle.getGpsLng());
         googleMap.addMarker(new MarkerOptions().position(riddleLocation)
                 .title(mRiddle.getTitle()));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(riddleLocation, 10));
+
+        setMyLocation();
+    }
+
+    private void setMyLocation() {
+        Log.d(TAG, "setMyLocation");
+
+        if (Build.VERSION.SDK_INT >= 23 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_FINE_LOCATION);
+            return;
+        }
+        if (mGoogleMap != null) {
+            mGoogleMap.setMyLocationEnabled(true);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult");
+
+        if (requestCode == PERMISSIONS_REQUEST_FINE_LOCATION) {
+            boolean locationNotAllowed = false;
+            for (int i = 0; i < permissions.length; i++) {
+                if (permissions[i].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    if (grantResults[i] < 0) {
+                        locationNotAllowed = true;
+                    }
+                }
+            }
+            if (!locationNotAllowed) {
+                setMyLocation();
+            }
+        }
     }
 
     @Override
     public void onLocation() {
+        Log.d(TAG, "onLocation");
+
         //TODO save to db, that location has been checked and also update current riddle
 
 //        mRiddlePagerAdapter.swapFragmentAtPosition(0, RiddleQuestionFragment.newInstance(mRiddle), getString(R.string.tab_question));

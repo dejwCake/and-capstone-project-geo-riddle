@@ -1,5 +1,7 @@
 package sk.dejw.android.georiddles.utils.json;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -9,6 +11,7 @@ import org.json.JSONObject;
 import sk.dejw.android.georiddles.models.Game;
 
 public final class GameJsonUtils {
+    private static final String TAG = GameJsonUtils.class.getSimpleName();
 
     public static Game[] getGamesFromJson(String jsonString) throws JSONException {
 

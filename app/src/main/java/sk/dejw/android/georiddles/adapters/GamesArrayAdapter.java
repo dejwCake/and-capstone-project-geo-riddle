@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Game;
 
-public class GamesSpinnerArrayAdapter extends ArrayAdapter<Game> {
+public class GamesArrayAdapter extends ArrayAdapter<Game> {
     private final LayoutInflater mInflater;
     private final Context mContext;
     private final int mResource;
@@ -25,7 +25,7 @@ public class GamesSpinnerArrayAdapter extends ArrayAdapter<Game> {
     @BindView(R.id.tv_game_title)
     TextView mGameTitle;
 
-    public GamesSpinnerArrayAdapter(@NonNull Context context, int resource, @NonNull List<Game> games) {
+    public GamesArrayAdapter(@NonNull Context context, int resource, @NonNull List<Game> games) {
         super(context, resource, games);
 
         mContext = context;
