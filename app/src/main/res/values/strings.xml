@@ -69,4 +69,9 @@
     <string name="correct_answer_dialog_text_final">Great, your answer is correct. Your quest is over, you answered all riddles correctly. Please select another game.</string>
     <string name="correct_answer_dialog_end">Finish</string>
 
+    <!--
+    - Widget
+    -->
+    <string name="widget_empty_view_text">Recipes are empty.</string>
+
 </resources>
