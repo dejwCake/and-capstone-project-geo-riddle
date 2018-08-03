@@ -1,12 +1,12 @@
-package sk.dejw.android.georiddles.asyncTask;
+package sk.dejw.android.georiddles.asyncTasks;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import sk.dejw.android.georiddles.models.Game;
-import sk.dejw.android.georiddles.provider.GameContract;
-import sk.dejw.android.georiddles.provider.GameProvider;
+import sk.dejw.android.georiddles.providers.GameContract;
+import sk.dejw.android.georiddles.providers.GameProvider;
 
 public class SaveGamesTask extends AsyncTask<Game[], Void, String> {
     private static final String TAG = SaveGamesTask.class.getSimpleName();

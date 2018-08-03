@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
-import sk.dejw.android.georiddles.provider.RiddleContract;
-import sk.dejw.android.georiddles.provider.RiddleProvider;
+import sk.dejw.android.georiddles.providers.RiddleContract;
+import sk.dejw.android.georiddles.providers.RiddleProvider;
 import sk.dejw.android.georiddles.utils.json.RiddleJsonUtils;
 import sk.dejw.android.georiddles.utils.network.RiddleNetworkUtils;
 

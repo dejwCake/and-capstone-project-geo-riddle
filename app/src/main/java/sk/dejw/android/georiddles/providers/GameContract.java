@@ -1,4 +1,4 @@
-package sk.dejw.android.georiddles.provider;
+package sk.dejw.android.georiddles.providers;
 
 import net.simonvt.schematic.annotation.AutoIncrement;
 import net.simonvt.schematic.annotation.ConflictResolutionType;

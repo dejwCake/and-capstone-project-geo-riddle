@@ -1,4 +1,4 @@
-package sk.dejw.android.georiddles.asyncTask;
+package sk.dejw.android.georiddles.asyncTasks;
 
 /**
  * Based on http://www.jameselsey.co.uk/blogs/techblog/extracting-out-your-asynctasks-into-separate-classes-makes-your-code-cleaner/

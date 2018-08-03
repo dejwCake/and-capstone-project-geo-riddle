@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import sk.dejw.android.georiddles.models.Riddle;
-import sk.dejw.android.georiddles.provider.RiddleContract;
+import sk.dejw.android.georiddles.providers.RiddleContract;
 
 public final class RiddleCursorUtils {
 

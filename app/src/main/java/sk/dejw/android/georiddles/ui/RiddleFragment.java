@@ -36,8 +36,8 @@ import butterknife.ButterKnife;
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.adapters.RiddlePagerAdapter;
 import sk.dejw.android.georiddles.models.Riddle;
-import sk.dejw.android.georiddles.provider.RiddleContract;
-import sk.dejw.android.georiddles.provider.RiddleProvider;
+import sk.dejw.android.georiddles.providers.RiddleContract;
+import sk.dejw.android.georiddles.providers.RiddleProvider;
 
 public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         RiddleDirectionsAndQuestionFragment.OnCorrectLocationListener,

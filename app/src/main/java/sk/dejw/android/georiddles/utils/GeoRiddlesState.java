@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Game;
-import sk.dejw.android.georiddles.provider.GameProvider;
+import sk.dejw.android.georiddles.providers.GameProvider;
 import sk.dejw.android.georiddles.utils.cursor.GameCursorUtils;
 
 public class GeoRiddlesState {
