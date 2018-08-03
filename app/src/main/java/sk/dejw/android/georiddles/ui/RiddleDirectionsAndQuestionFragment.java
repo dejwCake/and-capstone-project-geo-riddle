@@ -31,8 +31,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Riddle;
-import sk.dejw.android.georiddles.provider.RiddleContract;
-import sk.dejw.android.georiddles.provider.RiddleProvider;
+import sk.dejw.android.georiddles.providers.RiddleContract;
+import sk.dejw.android.georiddles.providers.RiddleProvider;
 import sk.dejw.android.georiddles.utils.cursor.RiddleCursorUtils;
 
 public class RiddleDirectionsAndQuestionFragment extends Fragment {

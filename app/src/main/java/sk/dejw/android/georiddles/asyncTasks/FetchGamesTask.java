@@ -1,4 +1,4 @@
-package sk.dejw.android.georiddles.asyncTask;
+package sk.dejw.android.georiddles.asyncTasks;
 
 import android.content.Context;
 import android.os.AsyncTask;

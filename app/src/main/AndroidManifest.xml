@@ -16,11 +16,11 @@
         android:theme="@style/AppTheme">
 
         <provider
-            android:name=".provider.generated.GameProvider"
+            android:name=".providers.generated.GameProvider"
             android:authorities="sk.dejw.android.georiddles.games"
             android:exported="true" />
         <provider
-            android:name=".provider.generated.RiddleProvider"
+            android:name=".providers.generated.RiddleProvider"
             android:authorities="sk.dejw.android.georiddles.riddles"
             android:exported="true" />
 

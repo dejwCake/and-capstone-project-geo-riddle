@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import sk.dejw.android.georiddles.models.Game;
-import sk.dejw.android.georiddles.provider.GameContract;
+import sk.dejw.android.georiddles.providers.GameContract;
 
 public final class GameCursorUtils {
 
