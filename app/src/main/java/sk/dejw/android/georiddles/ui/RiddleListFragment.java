@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +20,27 @@ import sk.dejw.android.georiddles.adapters.RiddleAdapter;
 import sk.dejw.android.georiddles.models.Riddle;
 
 public class RiddleListFragment extends Fragment implements RiddleAdapter.RiddleAdapterOnClickHandler {
-    private static final String BUNDLE_RIDDLES = "riddles";
+    private static final String TAG = RiddleListFragment.class.getSimpleName();
 
-    private ArrayList<Riddle> mRiddles;
+    private static final String BUNDLE_RIDDLES = "riddles";
 
     @BindView(R.id.rv_riddles_list)
     RecyclerView mRiddlesRecyclerView;
 
-    RiddleAdapter mRiddleAdapter;
+    private ArrayList<Riddle> mRiddles;
+    private RiddleAdapter mRiddleAdapter;
+    private OnRiddleClickListener mCallback;
 
-    OnRiddleClickListener mCallback;
+    public interface OnRiddleClickListener {
+        void onRiddleSelected(int riddleId);
+    }
 
     public RiddleListFragment() {
     }
 
     public static RiddleListFragment newInstance(ArrayList<Riddle> riddles) {
+        Log.d(TAG, "newInstance");
+
         RiddleListFragment fragment = new RiddleListFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(BUNDLE_RIDDLES, riddles);
@@ -43,6 +50,8 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mRiddles = getArguments().getParcelableArrayList(BUNDLE_RIDDLES);
@@ -52,6 +61,8 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
+
         if (mRiddles == null && savedInstanceState != null) {
             mRiddles = savedInstanceState.getParcelableArrayList(BUNDLE_RIDDLES);
         }
@@ -68,16 +79,9 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
     }
 
     @Override
-    public void onRiddleClick(int riddleId) {
-        mCallback.onRiddleSelected(riddleId);
-    }
-
-    public interface OnRiddleClickListener {
-        void onRiddleSelected(int riddleId);
-    }
-
-    @Override
     public void onAttach(Context context) {
+        Log.d(TAG, "onAttach");
+
         super.onAttach(context);
 
         try {
@@ -90,13 +94,24 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
 
     @Override
     public void onDetach() {
+        Log.d(TAG, "onDetach");
+
         super.onDetach();
         mCallback = null;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState");
+
         outState.putParcelableArrayList(BUNDLE_RIDDLES, mRiddles);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRiddleClick(int riddleId) {
+        Log.d(TAG, "onRiddleClick");
+
+        mCallback.onRiddleSelected(riddleId);
     }
 }

@@ -55,6 +55,7 @@ import sk.dejw.android.georiddles.asyncTask.SaveGamesTask;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.provider.GameContract;
 import sk.dejw.android.georiddles.provider.GameProvider;
+import sk.dejw.android.georiddles.utils.GeoRiddlesState;
 import sk.dejw.android.georiddles.utils.cursor.GameCursorUtils;
 import sk.dejw.android.georiddles.utils.network.GlobalNetworkUtils;
 
@@ -68,9 +69,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 111;
     private static final int SQUARE_RADIUS_IN_DEGREES = 2;
 
-    private ArrayList<Game> mListOfGames;
-    private GamesArrayAdapter mAdapter;
-
     @BindView(R.id.cl_main)
     ConstraintLayout mMainLayout;
     @BindView(R.id.tv_error_message)
@@ -83,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     Button mNearBy;
     @BindView(R.id.iv_search)
     ImageView mSearch;
+
+    private ArrayList<Game> mListOfGames;
+    private GamesArrayAdapter mAdapter;
 
     private ListPopupWindow mListPopupWindow;
 
@@ -126,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         mSearch.setOnClickListener(new OnSearchButtonClickListener());
+
+        GeoRiddlesState.clearLastSelectedGame(this);
 
         initializeLocation();
     }
@@ -199,6 +202,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void startGame(Game game) {
         Log.d(TAG, "startGame");
+
+        GeoRiddlesState.saveLastSelectedGame(this, game.getId());
 
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra(GameActivity.BUNDLE_GAME, game);
@@ -297,6 +302,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
     }
 
+    private void getLocation() {
+        Log.d(TAG, "getLocation");
+
+        if (Build.VERSION.SDK_INT >= 23 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_FINE_LOCATION);
+            return;
+        }
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            mLocation = location;
+                            loadDataFromDb();
+                        }
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult");
@@ -316,25 +340,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
                 break;
         }
-    }
-
-    private void getLocation() {
-        Log.d(TAG, "getLocation");
-
-        if (Build.VERSION.SDK_INT >= 23 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_FINE_LOCATION);
-            return;
-        }
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            mLocation = location;
-                            loadDataFromDb();
-                        }
-                    }
-                });
     }
 
     @Override
@@ -424,9 +429,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             mLoadingIndicator.setVisibility(View.INVISIBLE);
             if (games != null) {
-//                for(Game game: games) {
-//                    Log.d(TAG, "Title: " + game.getTitle() + " Lat: " + game.getGpsLat() + " lng: " + game.getGpsLng());
-//                }
                 saveDataFromInternet(games);
             } else {
                 mDataError = true;

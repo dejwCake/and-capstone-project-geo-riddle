@@ -7,6 +7,10 @@
     <string name="error_message_data">An error with data has occurred.</string>
     <string name="error_message_location">An error with location has occurred. We are sorry,  ut this application needs to know your location to function properly.</string>
 
+    <string name="preferences">sk.dejw.android.georiddles.preferences</string>
+    <string name="preference_key_game">sk.dejw.android.georiddles.preferences.game</string>
+    <string name="preference_key_riddle">sk.dejw.android.georiddles.preferences.riddle</string>
+
     <!--
     - Main Activity
     -->
@@ -42,7 +46,7 @@
     <string name="tab_question">Question</string>
 
     <!--
-    - Riddle Direction Fragment
+    - Riddle Directions And Question Fragment
     -->
     <string name="location_label">Riddle GPS position</string>
     <string name="gps_lat_label">Lat:</string>
@@ -52,10 +56,17 @@
     <string name="action_check_location">Check location</string>
     <string name="meters">m</string>
 
-    <!--
-    - Riddle Question Fragment
-    -->
     <string name="question_label">Question</string>
     <string name="check_the_answer">Check the answer</string>
+
+    <string name="not_in_correct_location">Sorry, you are not near the correct location.</string>
+    <string name="incorrect_answer">It is so sad, but your answer was wrong</string>
+
+    <string name="correct_answer_dialog_title">Good job</string>
+    <string name="correct_answer_dialog_text">Great, your answer is correct. Continue to the next riddle.</string>
+    <string name="correct_answer_dialog_continue">Next riddle</string>
+
+    <string name="correct_answer_dialog_text_final">Great, your answer is correct. Your quest is over, you answered all riddles correctly. Please select another game.</string>
+    <string name="correct_answer_dialog_end">Finish</string>
 
 </resources>

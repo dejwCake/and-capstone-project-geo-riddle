@@ -1,7 +1,10 @@
 package sk.dejw.android.georiddles.ui;
 
 import android.Manifest;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +17,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,27 +36,49 @@ import butterknife.ButterKnife;
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.adapters.RiddlePagerAdapter;
 import sk.dejw.android.georiddles.models.Riddle;
+import sk.dejw.android.georiddles.provider.RiddleContract;
+import sk.dejw.android.georiddles.provider.RiddleProvider;
 
-public class RiddleFragment extends Fragment implements OnMapReadyCallback, RiddleDirectionsFragment.OnCheckLocationClickListener {
+public class RiddleFragment extends Fragment implements OnMapReadyCallback,
+        RiddleDirectionsAndQuestionFragment.OnCorrectLocationListener,
+        RiddleDirectionsAndQuestionFragment.OnCorrectAnswerListener {
     private static final String TAG = RiddleFragment.class.getSimpleName();
 
     public static final String BUNDLE_RIDDLE = "riddle";
     private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 222;
-
-    private Riddle mRiddle;
-    private RiddlePagerAdapter mRiddlePagerAdapter;
-    private SupportMapFragment mMapFragment;
-    private GoogleMap mGoogleMap;
 
     @BindView(R.id.vp_riddle)
     ViewPager mViewPager;
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
 
+    private Riddle mRiddle;
+    private RiddlePagerAdapter mRiddlePagerAdapter;
+    private RiddleDirectionsAndQuestionFragment mRiddleDirectionsAndQuestionFragment;
+    private SupportMapFragment mMapFragment;
+    private GoogleMap mGoogleMap;
+
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationRequest mLocationRequest;
+    private CustomLocationCallback mCustomLocationCallback;
+
+    public OnCorrectLocationListener mCorrectLocationCallback;
+    public OnCorrectAnswerListener mCorrectAnswerCallback;
+
+    public interface OnCorrectLocationListener {
+        void onCorrectLocation(Riddle riddle);
+    }
+
+    public interface OnCorrectAnswerListener {
+        void onCorrectAnswer(Riddle riddle, Riddle nextRiddle);
+    }
+
     public RiddleFragment() {
     }
 
     public static RiddleFragment newInstance(Riddle riddle) {
+        Log.d(TAG, "newInstance");
+
         RiddleFragment fragment = new RiddleFragment();
         Bundle args = new Bundle();
         args.putParcelable(BUNDLE_RIDDLE, riddle);
@@ -63,6 +95,8 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
             mRiddle = getArguments().getParcelable(BUNDLE_RIDDLE);
         }
         setRetainInstance(true);
+
+        initializeLocation();
     }
 
     @Override
@@ -80,15 +114,13 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
         mMapFragment = SupportMapFragment.newInstance();
         mMapFragment.getMapAsync(this);
 
+        mRiddleDirectionsAndQuestionFragment = RiddleDirectionsAndQuestionFragment.newInstance(mRiddle);
+
         /**
          * Based on https://stackoverflow.com/questions/41413150/fragment-tabs-inside-fragment
          */
         mRiddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
-        if (!mRiddle.isLocationChecked()) {
-            mRiddlePagerAdapter.addFragment(RiddleDirectionsFragment.newInstance(mRiddle), getString(R.string.tab_directions));
-        } else {
-            mRiddlePagerAdapter.addFragment(RiddleQuestionFragment.newInstance(mRiddle), getString(R.string.tab_question));
-        }
+        mRiddlePagerAdapter.addFragment(mRiddleDirectionsAndQuestionFragment, getString(R.string.tab_directions));
         mRiddlePagerAdapter.addFragment(mMapFragment, getString(R.string.tab_map));
         mViewPager.setAdapter(mRiddlePagerAdapter);
 
@@ -97,10 +129,52 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
         return rootView;
     }
 
-    public void setRiddle(Riddle riddle) {
-        Log.d(TAG, "setRiddle");
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume");
 
-        mRiddle = riddle;
+        super.onResume();
+        if (!mRiddle.isLocationChecked()) {
+            startLocationUpdates();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        Log.d(TAG, "onPause");
+
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        Log.d(TAG, "onAttach");
+
+        super.onAttach(context);
+
+        try {
+            mCorrectLocationCallback = (OnCorrectLocationListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnCorrectLocationListener");
+        }
+
+        try {
+            mCorrectAnswerCallback = (OnCorrectAnswerListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnCorrectAnswerListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        Log.d(TAG, "onDetach");
+
+        super.onDetach();
+        mCorrectLocationCallback = null;
+        mCorrectAnswerCallback = null;
     }
 
     @Override
@@ -125,19 +199,7 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
                 .title(mRiddle.getTitle()));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(riddleLocation, 10));
 
-        setMyLocation();
-    }
-
-    private void setMyLocation() {
-        Log.d(TAG, "setMyLocation");
-
-        if (Build.VERSION.SDK_INT >= 23 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_FINE_LOCATION);
-            return;
-        }
-        if (mGoogleMap != null) {
-            mGoogleMap.setMyLocationEnabled(true);
-        }
+        enableUserLocationOnMap();
     }
 
     @Override
@@ -154,21 +216,138 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback, Ridd
                 }
             }
             if (!locationNotAllowed) {
-                setMyLocation();
+                enableUserLocationOnMap();
+                if (mRiddle.isLocationChecked()) {
+                    startLocationUpdates();
+                }
             }
         }
     }
 
+    private void initializeLocation() {
+        Log.d(TAG, "initializeLocation");
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        mCustomLocationCallback = new CustomLocationCallback();
+
+        createLocationRequest();
+
+        checkLocationSettings();
+    }
+
+    protected void createLocationRequest() {
+        Log.d(TAG, "createLocationRequest");
+
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(15 * 1000);
+        mLocationRequest.setFastestInterval(5 * 1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    protected void checkLocationSettings() {
+        Log.d(TAG, "checkLocationSettings");
+
+        /**
+         * Based on https://developer.android.com/training/location/change-location-settings
+         */
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+
+        SettingsClient client = LocationServices.getSettingsClient(getActivity());
+        client.checkLocationSettings(builder.build());
+    }
+
+    private void startLocationUpdates() {
+        Log.d(TAG, "startLocationUpdates");
+
+        if (Build.VERSION.SDK_INT >= 23 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_FINE_LOCATION);
+            return;
+        }
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mCustomLocationCallback, null);
+    }
+
+    private void enableUserLocationOnMap() {
+        Log.d(TAG, "enableUserLocationOnMap");
+
+        if (Build.VERSION.SDK_INT >= 23 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_FINE_LOCATION);
+            return;
+        }
+        if (mGoogleMap != null) {
+            mGoogleMap.setMyLocationEnabled(true);
+        }
+    }
+
+    private void stopLocationUpdates() {
+        Log.d(TAG, "stopLocationUpdates");
+
+        mFusedLocationClient.removeLocationUpdates(mCustomLocationCallback);
+    }
+
+    public void setRiddle(Riddle riddle) {
+        Log.d(TAG, "setRiddle");
+
+        mRiddle = riddle;
+    }
+
     @Override
-    public void onLocation() {
-        Log.d(TAG, "onLocation");
+    public void onCorrectLocation() {
+        Log.d(TAG, "onCorrectLocation");
 
-        //TODO save to db, that location has been checked and also update current riddle
+        mRiddle.setLocationChecked(true);
 
-//        mRiddlePagerAdapter.swapFragmentAtPosition(0, RiddleQuestionFragment.newInstance(mRiddle), getString(R.string.tab_question));
-        mRiddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
-        mRiddlePagerAdapter.addFragment(RiddleQuestionFragment.newInstance(mRiddle), getString(R.string.tab_question));
-        mRiddlePagerAdapter.addFragment(mMapFragment, getString(R.string.tab_map));
-        mViewPager.setAdapter(mRiddlePagerAdapter);
+        ContentValues updateRiddle = new ContentValues();
+        updateRiddle.put(RiddleContract.COLUMN_LOCATION_CHECKED, true);
+        getActivity().getContentResolver().update(RiddleProvider.Riddles.withId(mRiddle.getId()), updateRiddle, null, null);
+
+        mRiddleDirectionsAndQuestionFragment.setRiddle(mRiddle);
+        mRiddleDirectionsAndQuestionFragment.updateUi();
+        stopLocationUpdates();
+
+        mCorrectLocationCallback.onCorrectLocation(mRiddle);
+    }
+
+    @Override
+    public void onCorrectAnswer(Riddle nextRiddle) {
+        Log.d(TAG, "onCorrectAnswer");
+
+        mRiddle.setRiddleSolved(true);
+        mRiddle.setActive(false);
+
+        ContentValues updateRiddle = new ContentValues();
+        updateRiddle.put(RiddleContract.COLUMN_RIDDLE_SOLVED, true);
+        updateRiddle.put(RiddleContract.COLUMN_ACTIVE, false);
+        getActivity().getContentResolver().update(RiddleProvider.Riddles.withId(mRiddle.getId()), updateRiddle, null, null);
+
+        if(nextRiddle != null) {
+            nextRiddle.setActive(true);
+            ContentValues updateNextRiddle = new ContentValues();
+            updateNextRiddle.put(RiddleContract.COLUMN_ACTIVE, true);
+            getActivity().getContentResolver().update(RiddleProvider.Riddles.withId(nextRiddle.getId()), updateNextRiddle, null, null);
+        }
+
+        //Just change the riddle in map and in RiddleDirectionsAndQuestionFragment
+        //However do not know if it is a good solution
+
+        //or send it back to activity and handle it there
+        //For now I have used the second option
+
+        mCorrectAnswerCallback.onCorrectAnswer(mRiddle, nextRiddle);
+    }
+
+    class CustomLocationCallback extends LocationCallback {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Log.d(TAG, "CustomLocationCallback onLocationResult");
+
+            if (locationResult == null) {
+                return;
+            }
+            for (Location location : locationResult.getLocations()) {
+                mRiddleDirectionsAndQuestionFragment.setUserLocation(location);
+                mRiddleDirectionsAndQuestionFragment.updateUi();
+            }
+        }
     }
 }

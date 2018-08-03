@@ -1,5 +1,6 @@
 package sk.dejw.android.georiddles.models;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -193,5 +194,12 @@ public class Riddle implements Parcelable {
         dest.writeByte((byte) (active ? 1 : 0));
         dest.writeByte((byte) (locationChecked ? 1 : 0));
         dest.writeByte((byte) (riddleSolved ? 1 : 0));
+    }
+
+    public Location getLocation() {
+        Location location = new Location("");
+        location.setLatitude(this.gpsLat);
+        location.setLongitude(this.gpsLng);
+        return location;
     }
 }
