@@ -121,17 +121,17 @@ public class GameActivity extends AppCompatActivity implements
         Log.d(TAG, "setupFragments");
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        if (mSavedInstanceState == null) {
+//        if (mSavedInstanceState == null) {
             RiddleListFragment riddleListFragment = RiddleListFragment.newInstance(mRiddles);
             fragmentManager.beginTransaction()
-                    .add(R.id.game_container, riddleListFragment)
+                    .replace(R.id.game_container, riddleListFragment)
                     .commit();
-        }
+//        }
 
         if (findViewById(R.id.riddle_container) != null) {
             mTwoPane = true;
 
-            if (mSavedInstanceState == null) {
+//            if (mSavedInstanceState == null) {
 
                 Riddle activeRiddle = null;
                 for (Riddle riddle : mRiddles) {
@@ -144,9 +144,9 @@ public class GameActivity extends AppCompatActivity implements
                 }
                 RiddleFragment riddleFragment = RiddleFragment.newInstance(activeRiddle);
                 fragmentManager.beginTransaction()
-                        .add(R.id.riddle_container, riddleFragment)
+                        .replace(R.id.riddle_container, riddleFragment)
                         .commit();
-            }
+//            }
         } else {
             mTwoPane = false;
         }
@@ -289,6 +289,9 @@ public class GameActivity extends AppCompatActivity implements
         for (int i = 0; i < mRiddles.size(); i++) {
             if (mRiddles.get(i).getId() == riddle.getId()) {
                 mRiddles.set(i, riddle);
+            }
+            if (nextRiddle != null && mRiddles.get(i).getId() == nextRiddle.getId()) {
+                mRiddles.set(i, nextRiddle);
             }
         }
         RiddleListFragment riddleListFragment = RiddleListFragment.newInstance(mRiddles);

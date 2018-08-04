@@ -267,7 +267,7 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
             mAnswer.setVisibility(View.GONE);
             mCheckAnswerButton.setVisibility(View.GONE);
             mCorrectAnswer.setVisibility(View.VISIBLE);
-            mCorrectAnswer.setText(mRiddle.getAnswer());
+            mCorrectAnswer.setText(getString(R.string.correct_answer).concat(" ").concat(mRiddle.getAnswer()));
             if(mNextRiddle != null) {
                 mNextButton.setText(getString(R.string.next_riddle));
             } else {
