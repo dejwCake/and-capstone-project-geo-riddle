@@ -313,6 +313,7 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
     public void onCorrectLocation() {
         Log.d(TAG, "onCorrectLocation");
 
+        stopLocationUpdates();
         mRiddle.setLocationChecked(true);
 
         ContentValues updateRiddle = new ContentValues();
@@ -321,7 +322,6 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
 
         mRiddleDirectionsAndQuestionFragment.setRiddle(mRiddle);
         mRiddleDirectionsAndQuestionFragment.updateUi();
-        stopLocationUpdates();
 
         mCorrectLocationCallback.onCorrectLocation(mRiddle);
     }

@@ -70,6 +70,7 @@
                     android:layout_marginStart="@dimen/text_view_margin"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/text_view_font_size_small"
+                    android:textIsSelectable="true"
                     app:layout_constraintStart_toEndOf="@+id/tv_gps_lat_label"
                     app:layout_constraintTop_toTopOf="@+id/tv_gps_lat_label" />
 
@@ -91,6 +92,7 @@
                     android:layout_marginStart="@dimen/text_view_margin"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/text_view_font_size_small"
+                    android:textIsSelectable="true"
                     app:layout_constraintStart_toEndOf="@+id/tv_gps_lng_label"
                     app:layout_constraintTop_toTopOf="@+id/tv_gps_lng_label" />
 
