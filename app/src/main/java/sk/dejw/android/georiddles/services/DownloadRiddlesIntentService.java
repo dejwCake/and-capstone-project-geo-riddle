@@ -59,6 +59,7 @@ public class DownloadRiddlesIntentService extends IntentService {
             mReceiver.send(DOWNLOAD_SUCCESS, Bundle.EMPTY);
             return riddles;
         } catch (Exception e) {
+            Log.e(TAG, "Problem with riddle data. " + e.getMessage());
             mReceiver.send(DOWNLOAD_ERROR, Bundle.EMPTY);
             e.printStackTrace();
             return null;

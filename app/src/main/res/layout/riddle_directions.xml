@@ -33,8 +33,10 @@
                 android:layout_gravity="bottom"
                 android:background="#7000"
                 android:paddingBottom="@dimen/info_box_padding"
+                android:paddingEnd="@dimen/info_box_padding"
                 android:paddingLeft="@dimen/info_box_padding"
                 android:paddingRight="@dimen/info_box_padding"
+                android:paddingStart="@dimen/info_box_padding"
                 android:paddingTop="@dimen/info_box_padding">
 
                 <TextView
@@ -69,8 +71,8 @@
                     android:layout_marginLeft="@dimen/text_view_margin"
                     android:layout_marginStart="@dimen/text_view_margin"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/text_view_font_size_small"
                     android:textIsSelectable="true"
+                    android:textSize="@dimen/text_view_font_size_small"
                     app:layout_constraintStart_toEndOf="@+id/tv_gps_lat_label"
                     app:layout_constraintTop_toTopOf="@+id/tv_gps_lat_label" />
 
@@ -91,8 +93,8 @@
                     android:layout_marginLeft="@dimen/text_view_margin"
                     android:layout_marginStart="@dimen/text_view_margin"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/text_view_font_size_small"
                     android:textIsSelectable="true"
+                    android:textSize="@dimen/text_view_font_size_small"
                     app:layout_constraintStart_toEndOf="@+id/tv_gps_lng_label"
                     app:layout_constraintTop_toTopOf="@+id/tv_gps_lng_label" />
 
@@ -155,9 +157,9 @@
         android:layout_marginEnd="@dimen/default_margin"
         android:layout_marginRight="@dimen/fab_margin"
         android:contentDescription="@string/action_check_location"
+        android:elevation="@dimen/fab_elevation"
         android:src="@drawable/ic_location_off_black_24dp"
         app:layout_anchor="@id/fl_image_container"
         app:layout_anchorGravity="bottom|right|end"
-        tools:background="?android:attr/selectableItemBackgroundBorderless"
-        android:elevation="@dimen/fab_elevation"/>
+        tools:background="?android:attr/selectableItemBackgroundBorderless" />
 </android.support.design.widget.CoordinatorLayout>

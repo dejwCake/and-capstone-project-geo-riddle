@@ -37,6 +37,7 @@ public class FetchGamesTask extends AsyncTask<String, Void, Game[]> {
             return GameJsonUtils.getGamesFromJson(jsonResponse);
 
         } catch (Exception e) {
+            Log.e(TAG, "Problem with game data. " + e.getMessage());
             e.printStackTrace();
             return null;
         }

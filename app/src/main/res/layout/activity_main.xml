@@ -58,6 +58,8 @@
                 android:ems="10"
                 android:hint="@string/placeholder_code"
                 android:inputType="textPersonName"
+                android:nextFocusDown="@id/bt_near_by"
+                android:nextFocusRight="@id/iv_search"
                 app:layout_constraintEnd_toStartOf="@+id/iv_search"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_provide_code" />
@@ -68,10 +70,13 @@
                 android:layout_height="@dimen/search_image_height"
                 android:layout_marginEnd="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
+                android:nextFocusDown="@id/bt_near_by"
+                android:nextFocusLeft="@id/et_code"
                 android:tint="@color/colorAccent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/et_code"
-                app:srcCompat="@android:drawable/ic_menu_search" />
+                app:srcCompat="@android:drawable/ic_menu_search"
+                android:contentDescription="@string/search"/>
 
             <TextView
                 android:id="@+id/tv_or"
@@ -111,9 +116,10 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:layout_marginStart="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/welcome_margin"
+                android:background="@color/colorPrimaryDark"
+                android:nextFocusUp="@id/et_code"
                 android:text="@string/placeholder_game"
                 android:textColor="@color/colorWhite"
-                android:background="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_select_near_by" />

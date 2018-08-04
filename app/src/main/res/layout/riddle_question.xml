@@ -53,6 +53,7 @@
             android:layout_marginLeft="@dimen/text_view_margin"
             android:layout_marginRight="@dimen/text_view_margin"
             android:layout_marginStart="@dimen/text_view_margin"
+            android:nextFocusDown="@id/bt_check"
             app:layout_constraintBottom_toTopOf="@+id/bt_check"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -68,8 +69,9 @@
             android:layout_marginStart="@dimen/text_view_margin"
             android:background="@color/colorPrimaryDark"
             android:drawableLeft="@drawable/ic_check_white_24dp"
-            android:drawableStart="@drawable/ic_check_white_24dp"
             android:drawablePadding="@dimen/question_button_drawable_padding"
+            android:drawableStart="@drawable/ic_check_white_24dp"
+            android:nextFocusUp="@id/et_answer"
             android:paddingBottom="@dimen/question_button_padding_bottom"
             android:paddingEnd="@dimen/question_button_padding_right"
             android:paddingLeft="@dimen/question_button_padding_left"

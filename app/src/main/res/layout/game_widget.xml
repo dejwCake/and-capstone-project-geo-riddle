@@ -2,10 +2,10 @@
     android:id="@+id/ll_widget"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alpha="0.6"
     android:background="@color/imagePlaceholder"
     android:orientation="vertical"
-    android:padding="@dimen/widget_margin"
-    android:alpha="0.6">
+    android:padding="@dimen/widget_margin">
 
     <TextView
         android:id="@+id/tv_widget_game_title"
@@ -22,9 +22,11 @@
         android:id="@+id/tv_widget_game_statistics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_view_margin"
+        android:layout_marginEnd="@dimen/text_view_margin"
         android:layout_marginLeft="@dimen/text_view_margin"
         android:layout_marginRight="@dimen/text_view_margin"
+        android:layout_marginStart="@dimen/text_view_margin"
+        android:layout_marginTop="@dimen/text_view_margin"
         android:text="@string/widget_solved"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/text_view_font_size_medium" />
@@ -33,30 +35,30 @@
         android:id="@+id/tv_widget_all_solved"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
         android:layout_marginLeft="@dimen/text_view_margin"
         android:layout_marginRight="@dimen/text_view_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/widget_solved"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/text_view_font_size_medium"
         android:textStyle="bold|italic"
-        android:text="@string/widget_solved"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/tv_widget_go_to_active_riddle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
         android:layout_gravity="center"
-        android:paddingLeft="@dimen/button_padding_left"
-        android:paddingStart="@dimen/button_padding_left"
-        android:paddingRight="@dimen/button_padding_right"
-        android:paddingEnd="@dimen/button_padding_right"
-        android:paddingTop="@dimen/button_padding_top"
+        android:layout_marginTop="@dimen/default_margin"
+        android:background="@color/colorPrimaryDark"
         android:paddingBottom="@dimen/button_padding_bottom"
+        android:paddingEnd="@dimen/button_padding_right"
+        android:paddingLeft="@dimen/button_padding_left"
+        android:paddingRight="@dimen/button_padding_right"
+        android:paddingStart="@dimen/button_padding_left"
+        android:paddingTop="@dimen/button_padding_top"
         android:text="@string/widget_active_riddle"
         android:textColor="@color/colorWhite"
-        android:background="@color/colorPrimaryDark"
         android:textSize="@dimen/text_view_font_size_medium" />
 
 
