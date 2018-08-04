@@ -40,6 +40,11 @@
     <dimen name="question_button_padding_bottom">16dp</dimen>
     <dimen name="question_button_drawable_padding">8dp</dimen>
 
+    <dimen name="button_padding_top">10dp</dimen>
+    <dimen name="button_padding_left">16dp</dimen>
+    <dimen name="button_padding_right">16dp</dimen>
+    <dimen name="button_padding_bottom">12dp</dimen>
+
     <dimen name="list_item_no_width">48dp</dimen>
 
     <!--

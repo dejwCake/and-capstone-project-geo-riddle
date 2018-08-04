@@ -32,6 +32,7 @@ import sk.dejw.android.georiddles.services.DownloadRiddlesIntentService;
 import sk.dejw.android.georiddles.utils.GeoRiddlesState;
 import sk.dejw.android.georiddles.utils.cursor.RiddleCursorUtils;
 import sk.dejw.android.georiddles.utils.network.GlobalNetworkUtils;
+import sk.dejw.android.georiddles.widget.services.GameService;
 
 public class GameActivity extends AppCompatActivity implements
         RiddleListFragment.OnRiddleClickListener,
@@ -84,6 +85,10 @@ public class GameActivity extends AppCompatActivity implements
 
         if (mGame == null) {
             mGame = GeoRiddlesState.getLastSelectedGame(this);
+        }
+
+        if(mGame != null) {
+            GameService.startActionUpdateRecipeWidgets(this, mGame.getId());
         }
 
         Log.d(TAG, "Game: " + mGame.getTitle());

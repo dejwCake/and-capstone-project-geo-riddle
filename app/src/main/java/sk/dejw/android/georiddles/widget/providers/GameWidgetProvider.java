@@ -48,7 +48,7 @@ public class GameWidgetProvider extends AppWidgetProvider {
             views.setViewVisibility(R.id.tv_widget_game_statistics, View.GONE);
             views.setViewVisibility(R.id.tv_widget_go_to_active_riddle, View.GONE);
         } else {
-            views.setTextViewText(R.id.tv_widget_game_title, game.getTitle());
+            views.setTextViewText(R.id.tv_widget_game_title, context.getString(R.string.widget_active_game).concat(" ").concat(game.getTitle()));
             String statistics = context.getString(R.string.widget_solved) + " " +
                     String.valueOf(riddlesSolvedCount) + " " +
                     context.getString(R.string.widget_slash) + " " +
@@ -56,8 +56,15 @@ public class GameWidgetProvider extends AppWidgetProvider {
             views.setTextViewText(R.id.tv_widget_game_statistics, statistics);
             views.setViewVisibility(R.id.tv_widget_game_statistics, View.VISIBLE);
             if(activeRiddle != null) {
-                views.setViewVisibility(R.id.tv_widget_go_to_active_riddle, View.VISIBLE);
-                views.setTextViewText(R.id.tv_widget_go_to_active_riddle, context.getString(R.string.widget_active_riddle).concat(activeRiddle.getTitle()));
+                if(activeRiddle.isRiddleSolved()) {
+                    views.setViewVisibility(R.id.tv_widget_go_to_active_riddle, View.GONE);
+                    views.setViewVisibility(R.id.tv_widget_all_solved, View.VISIBLE);
+                } else {
+                    views.setViewVisibility(R.id.tv_widget_go_to_active_riddle, View.VISIBLE);
+                    views.setViewVisibility(R.id.tv_widget_all_solved, View.GONE);
+                }
+                views.setTextViewText(R.id.tv_widget_all_solved, context.getString(R.string.widget_active_riddle_solved));
+                views.setTextViewText(R.id.tv_widget_go_to_active_riddle, context.getString(R.string.widget_active_riddle).concat(" ").concat(activeRiddle.getTitle()));
             }
         }
 
@@ -71,7 +78,7 @@ public class GameWidgetProvider extends AppWidgetProvider {
         PendingIntent gamePendingIntent = PendingIntent.getActivity(context, 0, gameIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.tv_widget_game_title, gamePendingIntent);
 
-        if(activeRiddle != null) {
+        if(activeRiddle != null && !activeRiddle.isRiddleSolved()) {
             Intent riddleIntent = new Intent(context, RiddleActivity.class);
             riddleIntent.putExtra(RiddleFragment.BUNDLE_RIDDLE, activeRiddle);
             PendingIntent riddlePendingIntent = PendingIntent.getActivity(context, 0, riddleIntent, PendingIntent.FLAG_UPDATE_CURRENT);

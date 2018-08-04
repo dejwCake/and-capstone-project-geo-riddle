@@ -82,8 +82,10 @@
     -->
     <string name="widget_empty_view_text">Game not selected.</string>
     <string name="add_widget">Add widget</string>
-    <string name="widget_active_riddle">Go solve riddle </string>
-    <string name="widget_solved">Solved: </string>
+    <string name="widget_active_game">Your game is</string>
+    <string name="widget_active_riddle">Go solve riddle</string>
+    <string name="widget_active_riddle_solved">Great you have solved all riddles.</string>
+    <string name="widget_solved">Your score:</string>
     <string name="widget_slash">/</string>
 
 </resources>
