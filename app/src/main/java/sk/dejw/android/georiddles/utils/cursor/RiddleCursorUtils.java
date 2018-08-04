@@ -59,7 +59,7 @@ public final class RiddleCursorUtils {
         final Integer LOCATION_CHECKED = cursor.getColumnIndex(RiddleContract.COLUMN_LOCATION_CHECKED);
         final Integer RIDDLE_SOLVED = cursor.getColumnIndex(RiddleContract.COLUMN_RIDDLE_SOLVED);
 
-        if (cursor.getCount() > 0) {
+        if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             Riddle riddle = new Riddle(
                     cursor.getInt(ID),

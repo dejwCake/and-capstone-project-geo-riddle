@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class RiddleAdapter extends RecyclerView.Adapter<RiddleAdapter.RiddleView
     }
 
     public interface RiddleAdapterOnClickHandler {
-        void onRiddleClick(int riddlePosition);
+        void onRiddleClick(long riddlePosition);
     }
 
     @Override
@@ -50,9 +51,24 @@ public class RiddleAdapter extends RecyclerView.Adapter<RiddleAdapter.RiddleView
         holder.riddle = riddle;
         if (riddle.isActive() || riddle.isRiddleSolved()) {
             holder.riddleItemConstraintLayout.setEnabled(true);
+            if(riddle.isActive()) {
+                if(!riddle.isLocationChecked() && !riddle.isRiddleSolved()) {
+                    holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_location_off_black_24dp));
+                } else if(riddle.isLocationChecked() && !riddle.isRiddleSolved()) {
+                    holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_location_on_black_24dp));
+                } else {
+                    holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_green_24dp));
+                }
+            } else {
+                holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_green_24dp));
+            }
         } else {
             holder.riddleItemConstraintLayout.setEnabled(false);
+            holder.riddleNoTextView.setTextColor(mContext.getResources().getColor(R.color.colorDisabled));
+            holder.riddleTitleTextView.setTextColor(mContext.getResources().getColor(R.color.colorDisabled));
+            holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_close_red_24dp));
         }
+
     }
 
     @Override
@@ -66,6 +82,8 @@ public class RiddleAdapter extends RecyclerView.Adapter<RiddleAdapter.RiddleView
         TextView riddleNoTextView;
         @BindView(R.id.tv_riddle_title)
         TextView riddleTitleTextView;
+        @BindView(R.id.iv_riddle_status)
+        ImageView riddleStatus;
         @BindView(R.id.cl_riddle_item)
         ConstraintLayout riddleItemConstraintLayout;
         Riddle riddle;

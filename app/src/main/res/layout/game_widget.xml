@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#09C"
+    android:padding="@dimen/widget_margin"
+    android:orientation="horizontal"
+    android:id="@+id/ll_widget">
+
+    <TextView
+        android:id="@+id/tv_widget_game_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_view_margin"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_widget_game_statistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_view_margin"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/ll_widget_riddle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0px"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_widget_active_riddle_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="#09C"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_view_font_size_medium"
+            android:textStyle="bold|italic"
+            android:text="@string/widget_active_riddle"/>
+
+        <TextView
+            android:id="@+id/tv_widget_active_riddle_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="#09C"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_view_font_size_medium"
+            android:textStyle="bold|italic" />
+
+    </LinearLayout>
+
+</LinearLayout>

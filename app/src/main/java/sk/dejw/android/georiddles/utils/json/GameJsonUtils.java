@@ -1,7 +1,5 @@
 package sk.dejw.android.georiddles.utils.json;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

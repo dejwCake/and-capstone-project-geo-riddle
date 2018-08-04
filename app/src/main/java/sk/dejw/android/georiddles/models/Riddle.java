@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import java.util.UUID;
 
 public class Riddle implements Parcelable {
-    private int id;
+    private long id;
     private UUID gameUuid;
     private String title;
     private int no;
@@ -21,11 +21,11 @@ public class Riddle implements Parcelable {
     private boolean locationChecked;
     private boolean riddleSolved;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -117,10 +117,10 @@ public class Riddle implements Parcelable {
         this.riddleSolved = riddleSolved;
     }
 
-    public Riddle(int id, UUID gameUuid, String title, int no, double gpsLat, double gpsLng, String imagePath, String question, String answer, boolean active, boolean locationChecked, boolean riddleSolved) {
+    public Riddle(long id, UUID gameUuid, String title, int no, double gpsLat, double gpsLng, String imagePath, String question, String answer, boolean active, boolean locationChecked, boolean riddleSolved) {
         this.id = id;
-        this.gameUuid = gameUuid;
 
+        this.gameUuid = gameUuid;
         this.title = title;
         this.no = no;
         this.gpsLat = gpsLat;
@@ -128,6 +128,7 @@ public class Riddle implements Parcelable {
         this.imagePath = imagePath;
         this.question = question;
         this.answer = answer;
+
         this.active = active;
         this.locationChecked = locationChecked;
         this.riddleSolved = riddleSolved;
@@ -142,14 +143,16 @@ public class Riddle implements Parcelable {
         this.imagePath = imagePath;
         this.question = question;
         this.answer = answer;
+
         this.active = false;
         this.locationChecked = false;
         this.riddleSolved = false;
     }
 
     protected Riddle(Parcel in) {
+        id = in.readLong();
+
         gameUuid = UUID.fromString(in.readString());
-        id = in.readInt();
         title = in.readString();
         no = in.readInt();
         gpsLat = in.readDouble();
@@ -157,6 +160,7 @@ public class Riddle implements Parcelable {
         imagePath = in.readString();
         question = in.readString();
         answer = in.readString();
+
         active = in.readByte() != 0;
         locationChecked = in.readByte() != 0;
         riddleSolved = in.readByte() != 0;
@@ -182,8 +186,9 @@ public class Riddle implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+
         dest.writeString(gameUuid.toString());
-        dest.writeInt(id);
         dest.writeString(title);
         dest.writeInt(no);
         dest.writeDouble(gpsLat);
@@ -191,6 +196,7 @@ public class Riddle implements Parcelable {
         dest.writeString(imagePath);
         dest.writeString(question);
         dest.writeString(answer);
+
         dest.writeByte((byte) (active ? 1 : 0));
         dest.writeByte((byte) (locationChecked ? 1 : 0));
         dest.writeByte((byte) (riddleSolved ? 1 : 0));

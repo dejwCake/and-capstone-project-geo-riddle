@@ -6,22 +6,26 @@ import android.database.Cursor;
 
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Game;
+import sk.dejw.android.georiddles.providers.GameContract;
 import sk.dejw.android.georiddles.providers.GameProvider;
 import sk.dejw.android.georiddles.utils.cursor.GameCursorUtils;
 
 public class GeoRiddlesState {
 
-    public static void saveLastSelectedGame(Context context, int gameId) {
+    public static void saveLastSelectedGame(Context context, long gameId) {
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preferences), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(context.getString(R.string.preference_key_game), gameId);
+        editor.putLong(context.getString(R.string.preference_key_game), gameId);
         editor.apply();
     }
 
     public static Game getLastSelectedGame(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preferences), Context.MODE_PRIVATE);
-        int defaultValue = 0;
-        int gameId = sharedPref.getInt(context.getString(R.string.preference_key_game), defaultValue);
+        long gameId = sharedPref.getLong(context.getString(R.string.preference_key_game), (int) GameContract.INVALID_ID);
+
+        if(gameId == GameContract.INVALID_ID) {
+            return null;
+        }
 
         Cursor cursor = context.getContentResolver().query(
                 GameProvider.Games.withId(gameId),
@@ -37,6 +41,6 @@ public class GeoRiddlesState {
     }
 
     public static void clearLastSelectedGame(Context context) {
-        GeoRiddlesState.saveLastSelectedGame(context, 0);
+        GeoRiddlesState.saveLastSelectedGame(context, GameContract.INVALID_ID);
     }
 }

@@ -32,7 +32,7 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
     private OnRiddleClickListener mCallback;
 
     public interface OnRiddleClickListener {
-        void onRiddleSelected(int riddleId);
+        void onRiddleSelected(long riddleId);
     }
 
     public RiddleListFragment() {
@@ -109,7 +109,7 @@ public class RiddleListFragment extends Fragment implements RiddleAdapter.Riddle
     }
 
     @Override
-    public void onRiddleClick(int riddleId) {
+    public void onRiddleClick(long riddleId) {
         Log.d(TAG, "onRiddleClick");
 
         mCallback.onRiddleSelected(riddleId);

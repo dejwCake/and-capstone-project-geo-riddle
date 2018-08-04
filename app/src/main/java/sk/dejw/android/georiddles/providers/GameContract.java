@@ -37,4 +37,6 @@ public class GameContract {
     @DataType(DataType.Type.REAL)
     @NotNull
     public static final String COLUMN_GPS_LNG = "gps_lng";
+
+    public static final long INVALID_ID = -1;
 }

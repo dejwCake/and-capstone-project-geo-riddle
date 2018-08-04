@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
 
 public final class RiddleJsonUtils {
@@ -48,7 +47,8 @@ public final class RiddleJsonUtils {
                     jsonObject.getString(RIDDLE_IMAGE_PATH),
                     jsonObject.getString(RIDDLE_QUESTION),
                     jsonObject.getString(RIDDLE_ANSWER)
-            );;
+            );
+            ;
             riddles.add(riddle);
         }
         return riddles;

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.UUID;
 
 public class Game implements Parcelable {
-    private int id;
+    private long id;
     private UUID uuid;
     private String title;
     private String code;
@@ -17,7 +17,7 @@ public class Game implements Parcelable {
     @SerializedName("gps_lng")
     private double gpsLng;
 
-    public Game(int id, UUID uuid, String title, String code, double gpsLat, double gpsLng) {
+    public Game(long id, UUID uuid, String title, String code, double gpsLat, double gpsLng) {
         this.id = id;
         this.uuid = uuid;
         this.title = title;
@@ -27,7 +27,7 @@ public class Game implements Parcelable {
     }
 
     public Game(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readLong();
         this.uuid = UUID.fromString(in.readString());
         this.title = in.readString();
         this.code = in.readString();
@@ -35,11 +35,11 @@ public class Game implements Parcelable {
         this.gpsLng = in.readDouble();
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -85,7 +85,7 @@ public class Game implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeLong(id);
         dest.writeString(uuid.toString());
         dest.writeString(title);
         dest.writeString(code);

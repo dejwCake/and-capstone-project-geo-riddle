@@ -192,7 +192,7 @@ public class GameActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onRiddleSelected(int riddleId) {
+    public void onRiddleSelected(long riddleId) {
         Log.d(TAG, "onRiddleSelected");
 
         Riddle selectedRiddle = null;
