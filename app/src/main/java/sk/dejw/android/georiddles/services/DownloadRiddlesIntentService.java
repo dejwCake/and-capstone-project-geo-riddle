@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
 import sk.dejw.android.georiddles.providers.RiddleContract;
-import sk.dejw.android.georiddles.providers.RiddleProvider;
 import sk.dejw.android.georiddles.utils.json.RiddleJsonUtils;
 import sk.dejw.android.georiddles.utils.network.RiddleNetworkUtils;
 
@@ -42,7 +41,7 @@ public class DownloadRiddlesIntentService extends IntentService {
             mReceiver = (ResultReceiver) intent.getParcelableExtra(RECEIVER);
 
             ArrayList<Riddle> riddles = downloadData();
-            if(riddles != null && riddles.size() > 0) {
+            if (riddles != null && riddles.size() > 0) {
                 saveData(riddles);
             }
         }
@@ -68,9 +67,9 @@ public class DownloadRiddlesIntentService extends IntentService {
 
     private void saveData(ArrayList<Riddle> riddles) {
         try {
-            String selection = RiddleContract.COLUMN_GAME_UUID + " = ?";
+            String selection = RiddleContract.Entry.COLUMN_GAME_UUID + " = ?";
             String[] selectionArgs = {mGame.getUuid().toString()};
-            this.getContentResolver().delete(RiddleProvider.Riddles.RIDDLES_URI, selection, selectionArgs);
+            this.getContentResolver().delete(RiddleContract.Entry.CONTENT_URI, selection, selectionArgs);
 
             boolean isOneActiveRiddle = false;
             int smallestNo = Integer.MAX_VALUE;
@@ -83,28 +82,28 @@ public class DownloadRiddlesIntentService extends IntentService {
                         smallestNo = riddle.getNo();
                     }
                     ContentValues newRiddle = new ContentValues();
-                    newRiddle.put(RiddleContract.COLUMN_GAME_UUID, mGame.getUuid().toString());
-                    newRiddle.put(RiddleContract.COLUMN_TITLE, riddle.getTitle());
-                    newRiddle.put(RiddleContract.COLUMN_NO, riddle.getNo());
-                    newRiddle.put(RiddleContract.COLUMN_GPS_LAT, riddle.getGpsLat());
-                    newRiddle.put(RiddleContract.COLUMN_GPS_LNG, riddle.getGpsLng());
-                    newRiddle.put(RiddleContract.COLUMN_IMAGE_PATH, riddle.getImagePath());
-                    newRiddle.put(RiddleContract.COLUMN_QUESTION, riddle.getQuestion());
-                    newRiddle.put(RiddleContract.COLUMN_ANSWER, riddle.getAnswer());
-                    newRiddle.put(RiddleContract.COLUMN_ACTIVE, riddle.isActive());
-                    newRiddle.put(RiddleContract.COLUMN_LOCATION_CHECKED, riddle.isLocationChecked());
-                    newRiddle.put(RiddleContract.COLUMN_RIDDLE_SOLVED, riddle.isRiddleSolved());
-                    this.getContentResolver().insert(RiddleProvider.Riddles.RIDDLES_URI, newRiddle);
+                    newRiddle.put(RiddleContract.Entry.COLUMN_GAME_UUID, mGame.getUuid().toString());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_TITLE, riddle.getTitle());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_NO, riddle.getNo());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_GPS_LAT, riddle.getGpsLat());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_GPS_LNG, riddle.getGpsLng());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_IMAGE_PATH, riddle.getImagePath());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_QUESTION, riddle.getQuestion());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_ANSWER, riddle.getAnswer());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_ACTIVE, riddle.isActive());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_LOCATION_CHECKED, riddle.isLocationChecked());
+                    newRiddle.put(RiddleContract.Entry.COLUMN_RIDDLE_SOLVED, riddle.isRiddleSolved());
+                    this.getContentResolver().insert(RiddleContract.Entry.CONTENT_URI, newRiddle);
                 }
                 if (!isOneActiveRiddle) {
                     ContentValues activeRiddle = new ContentValues();
-                    activeRiddle.put(RiddleContract.COLUMN_ACTIVE, true);
-                    String selectionActive = RiddleContract.COLUMN_NO + " = ?";
+                    activeRiddle.put(RiddleContract.Entry.COLUMN_ACTIVE, true);
+                    String selectionActive = RiddleContract.Entry.COLUMN_NO + " = ?";
                     String[] selectionActiveArgs = {String.valueOf(0)};
                     if (smallestNo != 0 && smallestNo != Integer.MAX_VALUE) {
                         selectionActiveArgs[0] = String.valueOf(smallestNo);
                     }
-                    this.getContentResolver().update(RiddleProvider.Riddles.RIDDLES_URI, activeRiddle, selectionActive, selectionActiveArgs);
+                    this.getContentResolver().update(RiddleContract.Entry.CONTENT_URI, activeRiddle, selectionActive, selectionActiveArgs);
                 }
             }
             mReceiver.send(SAVE_SUCCESS, Bundle.EMPTY);

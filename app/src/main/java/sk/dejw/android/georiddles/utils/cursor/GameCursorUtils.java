@@ -11,15 +11,15 @@ import sk.dejw.android.georiddles.providers.GameContract;
 public final class GameCursorUtils {
 
     public static ArrayList<Game> getGamesFromCursor(Cursor cursor) {
-        final Integer GAME_ID = cursor.getColumnIndex(GameContract._ID);
-        final Integer GAME_UUID = cursor.getColumnIndex(GameContract.COLUMN_UUID);
-        final Integer GAME_TITLE = cursor.getColumnIndex(GameContract.COLUMN_TITLE);
-        final Integer GAME_CODE = cursor.getColumnIndex(GameContract.COLUMN_CODE);
-        final Integer GAME_GPS_LAT = cursor.getColumnIndex(GameContract.COLUMN_GPS_LAT);
-        final Integer GAME_GPS_LNG = cursor.getColumnIndex(GameContract.COLUMN_GPS_LNG);
+        final Integer GAME_ID = cursor.getColumnIndex(GameContract.Entry._ID);
+        final Integer GAME_UUID = cursor.getColumnIndex(GameContract.Entry.COLUMN_UUID);
+        final Integer GAME_TITLE = cursor.getColumnIndex(GameContract.Entry.COLUMN_TITLE);
+        final Integer GAME_CODE = cursor.getColumnIndex(GameContract.Entry.COLUMN_CODE);
+        final Integer GAME_GPS_LAT = cursor.getColumnIndex(GameContract.Entry.COLUMN_GPS_LAT);
+        final Integer GAME_GPS_LNG = cursor.getColumnIndex(GameContract.Entry.COLUMN_GPS_LNG);
 
         ArrayList<Game> list = new ArrayList<>();
-        if(cursor.getPosition() != -1){
+        if (cursor.getPosition() != -1) {
             cursor.moveToPosition(-1);
         }
         while (cursor.moveToNext()) {
@@ -36,12 +36,12 @@ public final class GameCursorUtils {
     }
 
     public static Game getFirstGameFromCursor(Cursor cursor) {
-        final Integer GAME_ID = cursor.getColumnIndex(GameContract._ID);
-        final Integer GAME_UUID = cursor.getColumnIndex(GameContract.COLUMN_UUID);
-        final Integer GAME_TITLE = cursor.getColumnIndex(GameContract.COLUMN_TITLE);
-        final Integer GAME_CODE = cursor.getColumnIndex(GameContract.COLUMN_CODE);
-        final Integer GAME_GPS_LAT = cursor.getColumnIndex(GameContract.COLUMN_GPS_LAT);
-        final Integer GAME_GPS_LNG = cursor.getColumnIndex(GameContract.COLUMN_GPS_LNG);
+        final Integer GAME_ID = cursor.getColumnIndex(GameContract.Entry._ID);
+        final Integer GAME_UUID = cursor.getColumnIndex(GameContract.Entry.COLUMN_UUID);
+        final Integer GAME_TITLE = cursor.getColumnIndex(GameContract.Entry.COLUMN_TITLE);
+        final Integer GAME_CODE = cursor.getColumnIndex(GameContract.Entry.COLUMN_CODE);
+        final Integer GAME_GPS_LAT = cursor.getColumnIndex(GameContract.Entry.COLUMN_GPS_LAT);
+        final Integer GAME_GPS_LNG = cursor.getColumnIndex(GameContract.Entry.COLUMN_GPS_LNG);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();

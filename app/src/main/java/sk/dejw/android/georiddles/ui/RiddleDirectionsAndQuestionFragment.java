@@ -35,7 +35,6 @@ import butterknife.ButterKnife;
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Riddle;
 import sk.dejw.android.georiddles.providers.RiddleContract;
-import sk.dejw.android.georiddles.providers.RiddleProvider;
 import sk.dejw.android.georiddles.utils.cursor.RiddleCursorUtils;
 
 public class RiddleDirectionsAndQuestionFragment extends Fragment {
@@ -123,7 +122,7 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
         if (mRiddle == null && savedInstanceState != null) {
             mRiddle = savedInstanceState.getParcelable(BUNDLE_RIDDLE);
         }
-        if(mRiddle != null) {
+        if (mRiddle != null) {
             mNextRiddle = getNextRiddle();
         }
 
@@ -190,7 +189,7 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
     public void updateUi() {
         Log.d(TAG, "updateUi");
 
-        if(mRiddle == null) {
+        if (mRiddle == null) {
             return;
         }
 
@@ -268,7 +267,7 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
             mCheckAnswerButton.setVisibility(View.GONE);
             mCorrectAnswer.setVisibility(View.VISIBLE);
             mCorrectAnswer.setText(getString(R.string.correct_answer).concat(" ").concat(mRiddle.getAnswer()));
-            if(mNextRiddle != null) {
+            if (mNextRiddle != null) {
                 mNextButton.setText(getString(R.string.next_riddle));
             } else {
                 mNextButton.setText(getString(R.string.finish));
@@ -278,14 +277,14 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
     }
 
     private Riddle getNextRiddle() {
-        String selection = RiddleContract.COLUMN_NO + " = ?";
+        String selection = RiddleContract.Entry.COLUMN_NO + " = ?";
         String[] selectionArgs = {String.valueOf(mRiddle.getNo() + 1)};
         Cursor nextRiddleCursor = getActivity().getContentResolver().query(
-                RiddleProvider.Riddles.RIDDLES_URI,
+                RiddleContract.Entry.CONTENT_URI,
                 null,
                 selection,
                 selectionArgs,
-                RiddleContract.COLUMN_NO);
+                RiddleContract.Entry.COLUMN_NO);
         return RiddleCursorUtils.getFirstRiddleFromCursor(nextRiddleCursor);
     }
 

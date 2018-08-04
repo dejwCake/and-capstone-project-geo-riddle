@@ -54,7 +54,6 @@ import sk.dejw.android.georiddles.asyncTasks.FetchGamesTask;
 import sk.dejw.android.georiddles.asyncTasks.SaveGamesTask;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.providers.GameContract;
-import sk.dejw.android.georiddles.providers.RiddleProvider;
 import sk.dejw.android.georiddles.utils.GeoRiddlesState;
 import sk.dejw.android.georiddles.utils.cursor.GameCursorUtils;
 import sk.dejw.android.georiddles.utils.network.GlobalNetworkUtils;
@@ -375,10 +374,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             double left = mLocation.getLongitude() - (SQUARE_RADIUS_IN_DEGREES / 2);
             double right = mLocation.getLongitude() + (SQUARE_RADIUS_IN_DEGREES / 2);
             String selection =
-                    GameContract.COLUMN_GPS_LAT + " <= ? AND " +
-                            GameContract.COLUMN_GPS_LAT + " >= ? AND " +
-                            GameContract.COLUMN_GPS_LNG + " <= ? AND " +
-                            GameContract.COLUMN_GPS_LNG + " >= ?";
+                    GameContract.Entry.COLUMN_GPS_LAT + " <= ? AND " +
+                            GameContract.Entry.COLUMN_GPS_LAT + " >= ? AND " +
+                            GameContract.Entry.COLUMN_GPS_LNG + " <= ? AND " +
+                            GameContract.Entry.COLUMN_GPS_LNG + " >= ?";
             String[] selectionArgs = {
                     String.valueOf(top),
                     String.valueOf(bottom),
@@ -386,19 +385,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     String.valueOf(left)
             };
             return new CursorLoader(this,
-                    RiddleProvider.Games.GAMES_URI,
+                    GameContract.Entry.CONTENT_URI,
                     null,
                     selection,
                     selectionArgs,
-                    GameContract.COLUMN_UUID);
+                    GameContract.Entry.COLUMN_UUID);
         } else {
             Log.d(TAG, "we are loading all games");
             return new CursorLoader(this,
-                    RiddleProvider.Games.GAMES_URI,
+                    GameContract.Entry.CONTENT_URI,
                     null,
                     null,
                     null,
-                    GameContract.COLUMN_UUID);
+                    GameContract.Entry.COLUMN_UUID);
 
         }
     }
@@ -459,14 +458,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             String code = mCode.getText().toString();
             if (!code.equals("")) {
-                String selection = GameContract.COLUMN_CODE + " = ?";
+                String selection = GameContract.Entry.COLUMN_CODE + " = ?";
                 String[] selectionArgs = {code};
                 Cursor searchResult = getContentResolver().query(
-                        RiddleProvider.Games.GAMES_URI,
+                        GameContract.Entry.CONTENT_URI,
                         null,
                         selection,
                         selectionArgs,
-                        GameContract.COLUMN_UUID);
+                        GameContract.Entry.COLUMN_UUID);
                 Game game = GameCursorUtils.getFirstGameFromCursor(searchResult);
                 if (game != null) {
                     showConfirmGameDialog(game);

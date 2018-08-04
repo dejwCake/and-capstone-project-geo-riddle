@@ -25,11 +25,11 @@
         </receiver>
 
         <provider
-            android:name=".providers.generated.GameProvider"
+            android:name=".providers.GameProvider"
             android:authorities="sk.dejw.android.georiddles.games"
             android:exported="true" />
         <provider
-            android:name=".providers.generated.RiddleProvider"
+            android:name=".providers.RiddleProvider"
             android:authorities="sk.dejw.android.georiddles.riddles"
             android:exported="true" />
 

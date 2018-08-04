@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.providers.GameContract;
-import sk.dejw.android.georiddles.providers.RiddleProvider;
 
 public class SaveGamesTask extends AsyncTask<Game[], Void, String> {
     private static final String TAG = SaveGamesTask.class.getSimpleName();
@@ -33,13 +32,13 @@ public class SaveGamesTask extends AsyncTask<Game[], Void, String> {
             for (int i = 0; i < games.length; i++) {
                 try {
                     ContentValues newGame = new ContentValues();
-                    newGame.put(GameContract.COLUMN_UUID, games[i].getUuid().toString());
-                    newGame.put(GameContract.COLUMN_TITLE, games[i].getTitle());
-                    newGame.put(GameContract.COLUMN_CODE, games[i].getCode());
-                    newGame.put(GameContract.COLUMN_GPS_LAT, games[i].getGpsLat());
-                    newGame.put(GameContract.COLUMN_GPS_LNG, games[i].getGpsLng());
-                    if (mContext.getContentResolver().update(RiddleProvider.Games.GAMES_URI, newGame, GameContract.COLUMN_UUID + " = ?", new String[]{games[i].getUuid().toString()}) == 0) {
-                        mContext.getContentResolver().insert(RiddleProvider.Games.GAMES_URI, newGame);
+                    newGame.put(GameContract.Entry.COLUMN_UUID, games[i].getUuid().toString());
+                    newGame.put(GameContract.Entry.COLUMN_TITLE, games[i].getTitle());
+                    newGame.put(GameContract.Entry.COLUMN_CODE, games[i].getCode());
+                    newGame.put(GameContract.Entry.COLUMN_GPS_LAT, games[i].getGpsLat());
+                    newGame.put(GameContract.Entry.COLUMN_GPS_LNG, games[i].getGpsLng());
+                    if (mContext.getContentResolver().update(GameContract.Entry.CONTENT_URI, newGame, GameContract.Entry.COLUMN_UUID + " = ?", new String[]{games[i].getUuid().toString()}) == 0) {
+                        mContext.getContentResolver().insert(GameContract.Entry.CONTENT_URI, newGame);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

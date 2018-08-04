@@ -31,7 +31,7 @@ public class GameWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-//        GameService.startActionUpdateRecipeWidgets(context, GameContract.INVALID_ID);
+//        GameService.startActionUpdateRecipeWidgets(context, GameContract.Entry.INVALID_ID);
     }
 
     public static void updateGameWidgets(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds, Game game, Riddle activeRiddle, int  riddlesTotalCount, int riddlesSolvedCount) {

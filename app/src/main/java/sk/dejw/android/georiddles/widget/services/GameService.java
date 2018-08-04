@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
 import sk.dejw.android.georiddles.providers.GameContract;
-import sk.dejw.android.georiddles.providers.RiddleProvider;
 import sk.dejw.android.georiddles.providers.RiddleContract;
 import sk.dejw.android.georiddles.utils.GeoRiddlesState;
 import sk.dejw.android.georiddles.utils.cursor.GameCursorUtils;
@@ -42,7 +41,7 @@ public class GameService extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_UPDATE_GAME_WIDGETS.equals(action)) {
-                final long gameId = intent.getLongExtra(EXTRA_GAME_ID, GameContract.INVALID_ID);
+                final long gameId = intent.getLongExtra(EXTRA_GAME_ID, GameContract.Entry.INVALID_ID);
                 handleActionUpdateGameWidgets(gameId);
             }
         }
@@ -54,38 +53,38 @@ public class GameService extends IntentService {
         Riddle activeRiddle = null;
         int riddlesTotalCount = 0;
         int riddlesSolvedCount = 0;
-        if (gameId == GameContract.INVALID_ID) {
+        if (gameId == GameContract.Entry.INVALID_ID) {
             game = GeoRiddlesState.getLastSelectedGame(this);
         } else {
             cursor = getContentResolver().query(
-                    RiddleProvider.Games.withId(gameId),
+                    GameContract.Entry.withId(gameId),
                     null,
                     null,
                     null,
-                    GameContract.COLUMN_TITLE
+                    GameContract.Entry.COLUMN_TITLE
             );
             Log.d(TAG, "Cursor count: " + cursor.getCount());
             game = GameCursorUtils.getFirstGameFromCursor(cursor);
             cursor.close();
         }
 
-        if(game != null) {
+        if (game != null) {
             cursor = getContentResolver().query(
-                    RiddleProvider.Riddles.RIDDLES_URI,
+                    RiddleContract.Entry.CONTENT_URI,
                     null,
                     null,
                     null,
-                    RiddleContract.COLUMN_NO
+                    RiddleContract.Entry.COLUMN_NO
             );
             ArrayList<Riddle> riddles = RiddleCursorUtils.getRiddlesFromCursor(cursor);
             cursor.close();
 
             riddlesTotalCount = riddles.size();
-            for(Riddle riddle: riddles) {
-                if(riddle.isActive() && activeRiddle == null) {
+            for (Riddle riddle : riddles) {
+                if (riddle.isActive() && activeRiddle == null) {
                     activeRiddle = riddle;
                 }
-                if(riddle.isRiddleSolved()) {
+                if (riddle.isRiddleSolved()) {
                     riddlesSolvedCount++;
                 }
             }

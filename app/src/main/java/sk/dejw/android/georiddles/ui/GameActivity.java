@@ -27,7 +27,6 @@ import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
 import sk.dejw.android.georiddles.providers.RiddleContract;
-import sk.dejw.android.georiddles.providers.RiddleProvider;
 import sk.dejw.android.georiddles.services.DownloadRiddlesIntentService;
 import sk.dejw.android.georiddles.utils.GeoRiddlesState;
 import sk.dejw.android.georiddles.utils.cursor.RiddleCursorUtils;
@@ -87,7 +86,7 @@ public class GameActivity extends AppCompatActivity implements
             mGame = GeoRiddlesState.getLastSelectedGame(this);
         }
 
-        if(mGame != null) {
+        if (mGame != null) {
             GameService.startActionUpdateRecipeWidgets(this, mGame.getId());
         }
 
@@ -122,10 +121,10 @@ public class GameActivity extends AppCompatActivity implements
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 //        if (mSavedInstanceState == null) {
-            RiddleListFragment riddleListFragment = RiddleListFragment.newInstance(mRiddles);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.game_container, riddleListFragment)
-                    .commit();
+        RiddleListFragment riddleListFragment = RiddleListFragment.newInstance(mRiddles);
+        fragmentManager.beginTransaction()
+                .replace(R.id.game_container, riddleListFragment)
+                .commit();
 //        }
 
         if (findViewById(R.id.riddle_container) != null) {
@@ -133,19 +132,19 @@ public class GameActivity extends AppCompatActivity implements
 
 //            if (mSavedInstanceState == null) {
 
-                Riddle activeRiddle = null;
-                for (Riddle riddle : mRiddles) {
-                    if (riddle.isActive() && activeRiddle == null) {
-                        activeRiddle = riddle;
-                    }
+            Riddle activeRiddle = null;
+            for (Riddle riddle : mRiddles) {
+                if (riddle.isActive() && activeRiddle == null) {
+                    activeRiddle = riddle;
                 }
-                if (activeRiddle == null) {
-                    activeRiddle = mRiddles.get(0);
-                }
-                RiddleFragment riddleFragment = RiddleFragment.newInstance(activeRiddle);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.riddle_container, riddleFragment)
-                        .commit();
+            }
+            if (activeRiddle == null) {
+                activeRiddle = mRiddles.get(0);
+            }
+            RiddleFragment riddleFragment = RiddleFragment.newInstance(activeRiddle);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.riddle_container, riddleFragment)
+                    .commit();
 //            }
         } else {
             mTwoPane = false;
@@ -227,14 +226,14 @@ public class GameActivity extends AppCompatActivity implements
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
         Log.d(TAG, "onCreateLoader");
 
-        String selection = RiddleContract.COLUMN_GAME_UUID + " = ?";
+        String selection = RiddleContract.Entry.COLUMN_GAME_UUID + " = ?";
         String[] selectionArgs = {mGame.getUuid().toString()};
         return new CursorLoader(this,
-                RiddleProvider.Riddles.RIDDLES_URI,
+                RiddleContract.Entry.CONTENT_URI,
                 null,
                 selection,
                 selectionArgs,
-                RiddleContract.COLUMN_NO);
+                RiddleContract.Entry.COLUMN_NO);
     }
 
     @Override
@@ -299,7 +298,7 @@ public class GameActivity extends AppCompatActivity implements
         fragmentManager.beginTransaction()
                 .replace(R.id.game_container, riddleListFragment)
                 .commit();
-        if(nextRiddle != null && mTwoPane) {
+        if (nextRiddle != null && mTwoPane) {
             RiddleFragment riddleFragment = RiddleFragment.newInstance(nextRiddle);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.riddle_container, riddleFragment)

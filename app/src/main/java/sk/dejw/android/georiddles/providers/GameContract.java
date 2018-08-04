@@ -26,6 +26,8 @@ public class GameContract {
         public static final String COLUMN_GPS_LAT = "gps_lat";
         public static final String COLUMN_GPS_LNG = "gps_lng";
 
+        public static final long INVALID_ID = -1;
+
         public static Uri withId(long id) {
             return CONTENT_URI.buildUpon()
                     .appendPath(Long.toString(id))

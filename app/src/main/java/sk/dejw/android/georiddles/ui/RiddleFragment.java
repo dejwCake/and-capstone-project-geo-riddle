@@ -40,7 +40,6 @@ import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.adapters.RiddlePagerAdapter;
 import sk.dejw.android.georiddles.models.Riddle;
 import sk.dejw.android.georiddles.providers.RiddleContract;
-import sk.dejw.android.georiddles.providers.RiddleProvider;
 
 public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         RiddleDirectionsAndQuestionFragment.OnCorrectLocationListener,
@@ -328,8 +327,8 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         mRiddle.setLocationChecked(true);
 
         ContentValues updateRiddle = new ContentValues();
-        updateRiddle.put(RiddleContract.COLUMN_LOCATION_CHECKED, true);
-        getActivity().getContentResolver().update(RiddleProvider.Riddles.withId(mRiddle.getId()), updateRiddle, null, null);
+        updateRiddle.put(RiddleContract.Entry.COLUMN_LOCATION_CHECKED, true);
+        getActivity().getContentResolver().update(RiddleContract.Entry.withId(mRiddle.getId()), updateRiddle, null, null);
 
         mRiddleDirectionsAndQuestionFragment.setRiddle(mRiddle);
         mRiddleDirectionsAndQuestionFragment.updateUi();
@@ -345,15 +344,15 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         mRiddle.setActive(false);
 
         ContentValues updateRiddle = new ContentValues();
-        updateRiddle.put(RiddleContract.COLUMN_RIDDLE_SOLVED, true);
-        updateRiddle.put(RiddleContract.COLUMN_ACTIVE, false);
-        getActivity().getContentResolver().update(RiddleProvider.Riddles.withId(mRiddle.getId()), updateRiddle, null, null);
+        updateRiddle.put(RiddleContract.Entry.COLUMN_RIDDLE_SOLVED, true);
+        updateRiddle.put(RiddleContract.Entry.COLUMN_ACTIVE, false);
+        getActivity().getContentResolver().update(RiddleContract.Entry.withId(mRiddle.getId()), updateRiddle, null, null);
 
         if (nextRiddle != null) {
             nextRiddle.setActive(true);
             ContentValues updateNextRiddle = new ContentValues();
-            updateNextRiddle.put(RiddleContract.COLUMN_ACTIVE, true);
-            getActivity().getContentResolver().update(RiddleProvider.Riddles.withId(nextRiddle.getId()), updateNextRiddle, null, null);
+            updateNextRiddle.put(RiddleContract.Entry.COLUMN_ACTIVE, true);
+            getActivity().getContentResolver().update(RiddleContract.Entry.withId(nextRiddle.getId()), updateNextRiddle, null, null);
         }
 
         //Just change the riddle in map and in RiddleDirectionsAndQuestionFragment
