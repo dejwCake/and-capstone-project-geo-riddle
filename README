@@ -1,7 +1,7 @@
 Instructions:
 
 App will download some games. Each game has a gps location and a code. You can find games near by, when you need to be near a game, or you can find game by code.
-List of all games and codes can be found here: http://georiddles.dejw.sk/games/list.
+For testing purposes, list of all games and codes can be found here: http://georiddles.dejw.sk/games/list.
 
 Each game consist of one or more riddles. For now, there are only test riddles, so it is a simple question and simple answer. The provided link, also contains questions and the answers.
 For each riddle you need to first go to (or fake) location specified. If you are in 20 meters or less from the location, you can confirm your location and the riddle will be displayed.
