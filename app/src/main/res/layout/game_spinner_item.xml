@@ -14,6 +14,7 @@
         android:layout_marginStart="@dimen/spinner_margin"
         android:layout_marginTop="@dimen/spinner_margin"
         android:text="@string/spinner_dummy_text"
+        android:textSize="@dimen/text_view_font_size_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

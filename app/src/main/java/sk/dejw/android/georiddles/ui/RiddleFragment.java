@@ -30,6 +30,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sk.dejw.android.georiddles.R;
@@ -95,7 +97,7 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         if (getArguments() != null) {
             mRiddle = getArguments().getParcelable(BUNDLE_RIDDLE);
         }
-        setRetainInstance(true);
+//        setRetainInstance(true);
 
         initializeLocation();
     }
@@ -112,20 +114,35 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         View rootView = inflater.inflate(R.layout.fragment_riddle, container, false);
         ButterKnife.bind(this, rootView);
 
-        mMapFragment = SupportMapFragment.newInstance();
-        mMapFragment.getMapAsync(this);
+        mRiddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
 
-        mRiddleDirectionsAndQuestionFragment = RiddleDirectionsAndQuestionFragment.newInstance(mRiddle);
+        List<Fragment> fragments = getChildFragmentManager().getFragments();
+        for(Fragment fragment: fragments) {
+            if(fragment instanceof RiddleDirectionsAndQuestionFragment) {
+                mRiddleDirectionsAndQuestionFragment = (RiddleDirectionsAndQuestionFragment)fragment;
+            } else if(fragment instanceof SupportMapFragment) {
+                mMapFragment = (SupportMapFragment)fragment;
+            }
+        }
+
+        if(mRiddleDirectionsAndQuestionFragment == null) {
+            mRiddleDirectionsAndQuestionFragment = RiddleDirectionsAndQuestionFragment.newInstance(mRiddle);
+        }
+        if(mMapFragment == null) {
+            mMapFragment = SupportMapFragment.newInstance();
+        }
+        mMapFragment.getMapAsync(this);
 
         /**
          * Based on https://stackoverflow.com/questions/41413150/fragment-tabs-inside-fragment
          */
-        mRiddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
         mRiddlePagerAdapter.addFragment(mRiddleDirectionsAndQuestionFragment, getString(R.string.tab_directions));
         mRiddlePagerAdapter.addFragment(mMapFragment, getString(R.string.tab_map));
         mViewPager.setAdapter(mRiddlePagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
+
+        Log.d(TAG, "Riddle: " + mRiddle.getTitle());
 
         return rootView;
     }

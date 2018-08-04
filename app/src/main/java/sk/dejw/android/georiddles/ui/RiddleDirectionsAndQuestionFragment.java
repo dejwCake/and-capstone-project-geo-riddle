@@ -130,6 +130,8 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_riddle_directions_and_question, container, false);
         ButterKnife.bind(this, rootView);
 
+        Log.d(TAG, "Riddle: " + mRiddle.getTitle());
+
         updateUi();
 
         return rootView;
@@ -187,6 +189,10 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
 
     public void updateUi() {
         Log.d(TAG, "updateUi");
+
+        if(mRiddle == null) {
+            return;
+        }
 
         Location riddleLocation = mRiddle.getLocation();
 
@@ -261,7 +267,7 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
             mAnswer.setVisibility(View.GONE);
             mCheckAnswerButton.setVisibility(View.GONE);
             mCorrectAnswer.setVisibility(View.VISIBLE);
-            if(mNextRiddle == null) {
+            if(mNextRiddle != null) {
                 mNextButton.setText(getString(R.string.next_riddle));
             } else {
                 mNextButton.setText(getString(R.string.finish));

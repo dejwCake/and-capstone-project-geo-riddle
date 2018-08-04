@@ -40,7 +40,7 @@ public class RiddleActivity extends AppCompatActivity implements
         Log.d(TAG, "Riddle: " + mRiddle.getTitle());
         setTitle(mRiddle.getTitle());
 
-        setupFragment();
+        setupFragment(savedInstanceState);
     }
 
     @Override
@@ -51,14 +51,18 @@ public class RiddleActivity extends AppCompatActivity implements
         super.onSaveInstanceState(outState);
     }
 
-    private void setupFragment() {
+    private void setupFragment(Bundle savedInstanceState) {
         Log.d(TAG, "setupFragment");
 
-        RiddleFragment riddleFragment = RiddleFragment.newInstance(mRiddle);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.riddle_container, riddleFragment)
-                .commit();
+        if (savedInstanceState == null) {
+            RiddleFragment riddleFragment = RiddleFragment.newInstance(mRiddle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.riddle_container, riddleFragment)
+                    .commit();
+
+        }
+
     }
 
     @Override
@@ -68,7 +72,7 @@ public class RiddleActivity extends AppCompatActivity implements
 
     @Override
     public void onCorrectAnswer(Riddle riddle, Riddle nextRiddle) {
-        if(nextRiddle == null) {
+        if (nextRiddle == null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
