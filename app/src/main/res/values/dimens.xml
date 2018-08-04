@@ -30,12 +30,17 @@
 
     <dimen name="direction_arrow_width">240dp</dimen>
     <dimen name="direction_arrow_height">@dimen/direction_arrow_width</dimen>
+
     <dimen name="question_margin_top">32dp</dimen>
+    <dimen name="question_button_width">320dp</dimen>
     <dimen name="question_button_margin_bottom">32dp</dimen>
     <dimen name="question_button_padding_top">10dp</dimen>
-    <dimen name="question_button_padding_left">36dp</dimen>
+    <dimen name="question_button_padding_left">16dp</dimen>
     <dimen name="question_button_padding_right">16dp</dimen>
     <dimen name="question_button_padding_bottom">16dp</dimen>
+    <dimen name="question_button_drawable_padding">8dp</dimen>
+
+    <dimen name="list_item_no_width">48dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information

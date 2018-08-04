@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,6 +45,8 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
 
     public static final String BUNDLE_RIDDLE = "riddle";
     private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 222;
+    private static final int LOCATION_REQUEST_INTERVAL = 5 * 1000;
+    private static final int LOCATION_REQUEST_FASTEST_INTERVAL = 3 * 1000;
 
     @BindView(R.id.vp_riddle)
     ViewPager mViewPager;
@@ -239,8 +240,8 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         Log.d(TAG, "createLocationRequest");
 
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(15 * 1000);
-        mLocationRequest.setFastestInterval(5 * 1000);
+        mLocationRequest.setInterval(LOCATION_REQUEST_INTERVAL);
+        mLocationRequest.setFastestInterval(LOCATION_REQUEST_FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -320,7 +321,7 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         updateRiddle.put(RiddleContract.COLUMN_ACTIVE, false);
         getActivity().getContentResolver().update(RiddleProvider.Riddles.withId(mRiddle.getId()), updateRiddle, null, null);
 
-        if(nextRiddle != null) {
+        if (nextRiddle != null) {
             nextRiddle.setActive(true);
             ContentValues updateNextRiddle = new ContentValues();
             updateNextRiddle.put(RiddleContract.COLUMN_ACTIVE, true);
@@ -344,11 +345,9 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
             if (locationResult == null) {
                 return;
             }
-            for (Location location : locationResult.getLocations()) {
-                Log.d(TAG, "New location is: " + location.toString());
-                mRiddleDirectionsAndQuestionFragment.setUserLocation(location);
-                mRiddleDirectionsAndQuestionFragment.updateUi();
-            }
+            Log.d(TAG, "New location is: " + locationResult.getLastLocation().toString());
+            mRiddleDirectionsAndQuestionFragment.setUserLocation(locationResult.getLastLocation());
+            mRiddleDirectionsAndQuestionFragment.updateUi();
         }
     }
 }

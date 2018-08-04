@@ -9,13 +9,15 @@
 
     <TextView
         android:id="@+id/tv_riddle_no"
-        android:layout_width="30dp"
+        android:layout_width="@dimen/list_item_no_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_view_margin"
+        android:layout_gravity="center_vertical"
         android:paddingEnd="@dimen/text_view_padding"
         android:paddingLeft="@dimen/text_view_padding"
         android:paddingRight="@dimen/text_view_padding"
         android:paddingStart="@dimen/text_view_padding"
+        android:textSize="@dimen/text_view_font_size_medium"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,16 +25,19 @@
         android:id="@+id/tv_riddle_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/text_view_margin"
-        android:layout_marginStart="@dimen/text_view_margin"
-        android:layout_marginRight="@dimen/text_view_margin"
         android:layout_marginEnd="@dimen/text_view_margin"
+        android:layout_marginLeft="@dimen/text_view_margin"
+        android:layout_marginRight="@dimen/text_view_margin"
+        android:layout_marginStart="@dimen/text_view_margin"
         android:layout_marginTop="@dimen/text_view_margin"
+        android:layout_gravity="center_vertical"
         android:paddingEnd="@dimen/text_view_padding"
         android:paddingLeft="@dimen/text_view_padding"
         android:paddingRight="@dimen/text_view_padding"
         android:paddingStart="@dimen/text_view_padding"
+        android:textSize="@dimen/text_view_font_size_medium"
         app:layout_constraintEnd_toStartOf="@+id/iv_riddle_status"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/tv_riddle_no"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,8 +45,8 @@
         android:id="@+id/iv_riddle_status"
         android:layout_width="@dimen/riddle_list_image_width"
         android:layout_height="@dimen/riddle_list_image_height"
-        android:layout_marginTop="@dimen/text_view_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/status_icon_disabled" />
 
 </android.support.constraint.ConstraintLayout>

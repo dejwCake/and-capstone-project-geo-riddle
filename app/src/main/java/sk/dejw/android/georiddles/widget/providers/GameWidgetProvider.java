@@ -11,12 +11,10 @@ import android.widget.RemoteViews;
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
-import sk.dejw.android.georiddles.providers.GameContract;
 import sk.dejw.android.georiddles.ui.GameActivity;
 import sk.dejw.android.georiddles.ui.MainActivity;
 import sk.dejw.android.georiddles.ui.RiddleActivity;
 import sk.dejw.android.georiddles.ui.RiddleFragment;
-import sk.dejw.android.georiddles.widget.services.GameService;
 
 /**
  * Implementation of App Widget functionality.
@@ -33,7 +31,7 @@ public class GameWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        GameService.startActionUpdateRecipeWidgets(context, GameContract.INVALID_ID);
+//        GameService.startActionUpdateRecipeWidgets(context, GameContract.INVALID_ID);
     }
 
     public static void updateGameWidgets(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds, Game game, Riddle activeRiddle, int  riddlesTotalCount, int riddlesSolvedCount) {
@@ -48,7 +46,7 @@ public class GameWidgetProvider extends AppWidgetProvider {
         if(game == null) {
             views.setTextViewText(R.id.tv_widget_game_title, context.getString(R.string.widget_empty_view_text));
             views.setViewVisibility(R.id.tv_widget_game_statistics, View.GONE);
-            views.setViewVisibility(R.id.ll_widget_riddle, View.GONE);
+            views.setViewVisibility(R.id.tv_widget_go_to_active_riddle, View.GONE);
         } else {
             views.setTextViewText(R.id.tv_widget_game_title, game.getTitle());
             String statistics = context.getString(R.string.widget_solved) + " " +
@@ -56,8 +54,10 @@ public class GameWidgetProvider extends AppWidgetProvider {
                     context.getString(R.string.widget_slash) + " " +
                     String.valueOf(riddlesTotalCount);
             views.setTextViewText(R.id.tv_widget_game_statistics, statistics);
+            views.setViewVisibility(R.id.tv_widget_game_statistics, View.VISIBLE);
             if(activeRiddle != null) {
-                views.setTextViewText(R.id.tv_widget_active_riddle_title, activeRiddle.getTitle());
+                views.setViewVisibility(R.id.tv_widget_go_to_active_riddle, View.VISIBLE);
+                views.setTextViewText(R.id.tv_widget_go_to_active_riddle, context.getString(R.string.widget_active_riddle).concat(activeRiddle.getTitle()));
             }
         }
 
@@ -75,7 +75,7 @@ public class GameWidgetProvider extends AppWidgetProvider {
             Intent riddleIntent = new Intent(context, RiddleActivity.class);
             riddleIntent.putExtra(RiddleFragment.BUNDLE_RIDDLE, activeRiddle);
             PendingIntent riddlePendingIntent = PendingIntent.getActivity(context, 0, riddleIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            views.setOnClickPendingIntent(R.id.tv_widget_active_riddle_title, riddlePendingIntent);
+            views.setOnClickPendingIntent(R.id.tv_widget_go_to_active_riddle, riddlePendingIntent);
         }
         return views;
     }

@@ -101,10 +101,6 @@ public class GameActivity extends AppCompatActivity implements
         Log.d(TAG, "onResume");
 
         super.onResume();
-
-//        if (mRiddles == null || mRiddles.size() == 0) {
-//            loadRiddlesFromDb(RIDDLES_FIRST_ATTEMPT_LOADER_ID);
-//        }
     }
 
     @Override
@@ -241,9 +237,9 @@ public class GameActivity extends AppCompatActivity implements
         Log.d(TAG, "Riddles loaded: " + String.valueOf(data.getCount()));
         Log.d(TAG, String.valueOf(loader.getId()));
 
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
         switch (loader.getId()) {
             case RIDDLES_FIRST_ATTEMPT_LOADER_ID:
-                mLoadingIndicator.setVisibility(View.INVISIBLE);
                 if (data.getCount() != 0) {
                     mRiddles = RiddleCursorUtils.getRiddlesFromCursor(data);
                     Log.d(TAG, "Riddles loaded and in mRiddles: " + mRiddles.size());
@@ -253,7 +249,6 @@ public class GameActivity extends AppCompatActivity implements
                 }
                 break;
             case RIDDLES_SECOND_ATTEMPT_LOADER_ID:
-                mLoadingIndicator.setVisibility(View.INVISIBLE);
                 if (data.getCount() != 0) {
                     mRiddles = RiddleCursorUtils.getRiddlesFromCursor(data);
                     Log.d(TAG, "Riddles loaded and in mRiddles: " + mRiddles.size());
@@ -321,11 +316,13 @@ public class GameActivity extends AppCompatActivity implements
                     break;
                 case DownloadRiddlesIntentService.SAVE_SUCCESS:
                     mLoadingIndicator.setProgress(100);
+                    mLoadingIndicator.setVisibility(View.GONE);
                     showDataView();
                     loadRiddlesFromDb(RIDDLES_SECOND_ATTEMPT_LOADER_ID);
                     break;
                 case DownloadRiddlesIntentService.DOWNLOAD_ERROR:
                 case DownloadRiddlesIntentService.SAVE_ERROR:
+                    mLoadingIndicator.setVisibility(View.GONE);
                     showErrorMessage();
                     break;
 

@@ -53,19 +53,25 @@ public class RiddleAdapter extends RecyclerView.Adapter<RiddleAdapter.RiddleView
             holder.riddleItemConstraintLayout.setEnabled(true);
             if(riddle.isActive()) {
                 if(!riddle.isLocationChecked() && !riddle.isRiddleSolved()) {
+                    holder.riddleStatus.setContentDescription(mContext.getString(R.string.status_icon_active));
                     holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_location_off_black_24dp));
                 } else if(riddle.isLocationChecked() && !riddle.isRiddleSolved()) {
+                    holder.riddleStatus.setContentDescription(mContext.getString(R.string.status_icon_location_checked));
                     holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_location_on_black_24dp));
                 } else {
+                    holder.riddleStatus.setContentDescription(mContext.getString(R.string.status_icon_solved));
                     holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_green_24dp));
                 }
             } else {
+                holder.riddleStatus.setContentDescription(mContext.getString(R.string.status_icon_solved));
                 holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_green_24dp));
             }
         } else {
             holder.riddleItemConstraintLayout.setEnabled(false);
             holder.riddleNoTextView.setTextColor(mContext.getResources().getColor(R.color.colorDisabled));
             holder.riddleTitleTextView.setTextColor(mContext.getResources().getColor(R.color.colorDisabled));
+
+            holder.riddleStatus.setContentDescription(mContext.getString(R.string.status_icon_disabled));
             holder.riddleStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_close_red_24dp));
         }
 

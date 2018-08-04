@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         AlertDialog.Builder builder;
         builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.confirm_dialog_title))
-                .setMessage(getString(R.string.confirm_dialog_text).concat(game.getTitle()))
+                .setMessage(getString(R.string.confirm_dialog_text).concat(" ").concat(game.getTitle()))
                 .setPositiveButton(R.string.confirm_dialog_start_game, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startGame(game);

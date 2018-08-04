@@ -2,9 +2,9 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/riddle_directions"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/riddle_directions"
     android:visibility="visible">
 
     <LinearLayout
@@ -87,6 +87,8 @@
                     android:id="@+id/tv_gps_lng"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_view_margin"
+                    android:layout_marginStart="@dimen/text_view_margin"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/text_view_font_size_small"
                     app:layout_constraintStart_toEndOf="@+id/tv_gps_lng_label"
@@ -154,5 +156,6 @@
         android:src="@drawable/ic_location_off_black_24dp"
         app:layout_anchor="@id/fl_image_container"
         app:layout_anchorGravity="bottom|right|end"
-        tools:background="?android:attr/selectableItemBackgroundBorderless" />
+        tools:background="?android:attr/selectableItemBackgroundBorderless"
+        android:elevation="@dimen/fab_elevation"/>
 </android.support.design.widget.CoordinatorLayout>

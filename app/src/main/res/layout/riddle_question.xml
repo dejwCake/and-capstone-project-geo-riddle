@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/riddle_question"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:id="@+id/riddle_question"
     android:visibility="gone">
 
     <android.support.constraint.ConstraintLayout
@@ -29,8 +29,8 @@
         <TextView
             android:id="@+id/tv_question"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_view_margin"
             android:layout_marginEnd="@dimen/text_view_margin"
             android:layout_marginLeft="@dimen/text_view_margin"
             android:layout_marginRight="@dimen/text_view_margin"
@@ -59,16 +59,17 @@
 
         <Button
             android:id="@+id/bt_check"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/question_button_width"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/question_button_margin_bottom"
             android:layout_marginEnd="@dimen/text_view_margin"
             android:layout_marginLeft="@dimen/text_view_margin"
             android:layout_marginRight="@dimen/text_view_margin"
             android:layout_marginStart="@dimen/text_view_margin"
-            android:background="#d9a950"
-            android:drawableLeft="@drawable/ic_check_black_24dp"
-            android:drawableStart="@drawable/ic_check_black_24dp"
+            android:background="@color/colorPrimaryDark"
+            android:drawableLeft="@drawable/ic_check_white_24dp"
+            android:drawableStart="@drawable/ic_check_white_24dp"
+            android:drawablePadding="@dimen/question_button_drawable_padding"
             android:paddingBottom="@dimen/question_button_padding_bottom"
             android:paddingEnd="@dimen/question_button_padding_right"
             android:paddingLeft="@dimen/question_button_padding_left"
@@ -76,7 +77,44 @@
             android:paddingStart="@dimen/question_button_padding_left"
             android:paddingTop="@dimen/question_button_padding_bottom"
             android:text="@string/check_the_answer"
-            android:textColor="#e8e9e9"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_correct_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/text_view_margin"
+            android:layout_marginEnd="@dimen/text_view_margin"
+            android:layout_marginLeft="@dimen/text_view_margin"
+            android:layout_marginRight="@dimen/text_view_margin"
+            android:layout_marginStart="@dimen/text_view_margin"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/bt_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/bt_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/question_button_margin_bottom"
+            android:layout_marginEnd="@dimen/text_view_margin"
+            android:layout_marginLeft="@dimen/text_view_margin"
+            android:layout_marginRight="@dimen/text_view_margin"
+            android:layout_marginStart="@dimen/text_view_margin"
+            android:background="@color/colorPrimaryDark"
+            android:paddingBottom="@dimen/question_button_padding_bottom"
+            android:paddingEnd="@dimen/question_button_padding_left"
+            android:paddingLeft="@dimen/question_button_padding_left"
+            android:paddingRight="@dimen/question_button_padding_left"
+            android:paddingStart="@dimen/question_button_padding_left"
+            android:paddingTop="@dimen/question_button_padding_bottom"
+            android:text="@string/next_riddle"
+            android:textColor="@color/colorWhite"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

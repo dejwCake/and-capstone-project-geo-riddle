@@ -2,6 +2,7 @@ package sk.dejw.android.georiddles.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.text.NumberFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,12 +64,18 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
     @BindView(R.id.bt_check)
     Button mCheckAnswerButton;
 
+    @BindView(R.id.tv_correct_answer)
+    TextView mCorrectAnswer;
+    @BindView(R.id.bt_next)
+    Button mNextButton;
+
     @BindView(R.id.riddle_directions)
     CoordinatorLayout mRiddleDirections;
     @BindView(R.id.riddle_question)
     ScrollView mRiddleQuestion;
 
     private Riddle mRiddle;
+    private Riddle mNextRiddle;
     private Location mUserLocation;
     private float mLastBearing = 0;
     private float mCurrentBearing = 0;
@@ -113,6 +122,9 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
 
         if (mRiddle == null && savedInstanceState != null) {
             mRiddle = savedInstanceState.getParcelable(BUNDLE_RIDDLE);
+        }
+        if(mRiddle != null) {
+            mNextRiddle = getNextRiddle();
         }
 
         View rootView = inflater.inflate(R.layout.fragment_riddle_directions_and_question, container, false);
@@ -189,6 +201,7 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
 
         mCheckLocation.setOnClickListener(new OnCheckLocationFabClickListener());
         mCheckAnswerButton.setOnClickListener(new OnCheckAnswerClickListener());
+        mNextButton.setOnClickListener(new OnMoveToNextRiddleClickListener());
 
         mQuestion.setText(mRiddle.getQuestion());
 
@@ -220,22 +233,44 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
         }
         if (mDistance <= DISTANCE_THRESHOLD) {
             mCheckLocation.setEnabled(true);
+            mCheckLocation.setImageDrawable(getResources().getDrawable(R.drawable.ic_location_on_black_24dp));
+            mCheckLocation.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
         } else {
             mCheckLocation.setEnabled(false);
+            mCheckLocation.setImageDrawable(getResources().getDrawable(R.drawable.ic_location_off_black_24dp));
+            mCheckLocation.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccentTint)));
         }
-        mDistanceText.setText(String.valueOf(mDistance).concat(getString(R.string.meters)));
+        String distanceString = NumberFormat.getNumberInstance(getResources().getConfiguration().locale).format((int) mDistance);
+        mDistanceText.setText(distanceString.concat(getString(R.string.meters)));
 
-        if (mRiddle.isLocationChecked()) {
-            mRiddleDirections.setVisibility(View.GONE);
-            mRiddleQuestion.setVisibility(View.VISIBLE);
-        } else {
+        if (!mRiddle.isLocationChecked() && !mRiddle.isRiddleSolved()) {
             mRiddleDirections.setVisibility(View.VISIBLE);
             mRiddleQuestion.setVisibility(View.GONE);
+        } else if (mRiddle.isLocationChecked() && !mRiddle.isRiddleSolved()) {
+            mRiddleDirections.setVisibility(View.GONE);
+            mRiddleQuestion.setVisibility(View.VISIBLE);
+
+            mAnswer.setVisibility(View.VISIBLE);
+            mCheckAnswerButton.setVisibility(View.VISIBLE);
+            mCorrectAnswer.setVisibility(View.GONE);
+            mNextButton.setVisibility(View.GONE);
+        } else {
+            mRiddleDirections.setVisibility(View.GONE);
+            mRiddleQuestion.setVisibility(View.VISIBLE);
+
+            mAnswer.setVisibility(View.GONE);
+            mCheckAnswerButton.setVisibility(View.GONE);
+            mCorrectAnswer.setVisibility(View.VISIBLE);
+            if(mNextRiddle == null) {
+                mNextButton.setText(getString(R.string.next_riddle));
+            } else {
+                mNextButton.setText(getString(R.string.finish));
+            }
+            mNextButton.setVisibility(View.VISIBLE);
         }
-        //TODO add other statuses if is solved
     }
 
-    private void showCorrectAnswerDialog() {
+    private Riddle getNextRiddle() {
         String selection = RiddleContract.COLUMN_NO + " = ?";
         String[] selectionArgs = {String.valueOf(mRiddle.getNo() + 1)};
         Cursor nextRiddleCursor = getActivity().getContentResolver().query(
@@ -244,26 +279,27 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
                 selection,
                 selectionArgs,
                 RiddleContract.COLUMN_NO);
-        final Riddle nextRiddle = RiddleCursorUtils.getFirstRiddleFromCursor(nextRiddleCursor);
+        return RiddleCursorUtils.getFirstRiddleFromCursor(nextRiddleCursor);
+    }
 
+    private void showCorrectAnswerDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.correct_answer_dialog_title);
-        if (nextRiddle == null) {
+        if (mNextRiddle == null) {
             builder.setMessage(R.string.correct_answer_dialog_text_final)
-                    .setPositiveButton(R.string.correct_answer_dialog_end, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.finish, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            mCorrectAnswerCallback.onCorrectAnswer(nextRiddle);
+                            mCorrectAnswerCallback.onCorrectAnswer(mNextRiddle);
                         }
                     });
         } else {
             builder.setMessage(R.string.correct_answer_dialog_text)
-                    .setPositiveButton(R.string.correct_answer_dialog_continue, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.next_riddle, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            mCorrectAnswerCallback.onCorrectAnswer(nextRiddle);
+                            mCorrectAnswerCallback.onCorrectAnswer(mNextRiddle);
                         }
                     });
         }
-        //TODO distinguish if we have more riddles in this game
 
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -292,6 +328,15 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
             } else {
                 Toast.makeText(getContext(), getString(R.string.incorrect_answer), Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    class OnMoveToNextRiddleClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, "OnCorrectAnswerListener onClick");
+
+            mCorrectAnswerCallback.onCorrectAnswer(mNextRiddle);
         }
     }
 }
