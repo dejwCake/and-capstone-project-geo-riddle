@@ -119,18 +119,18 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         mRiddlePagerAdapter = new RiddlePagerAdapter(getChildFragmentManager());
 
         List<Fragment> fragments = getChildFragmentManager().getFragments();
-        for(Fragment fragment: fragments) {
-            if(fragment instanceof RiddleDirectionsAndQuestionFragment) {
-                mRiddleDirectionsAndQuestionFragment = (RiddleDirectionsAndQuestionFragment)fragment;
-            } else if(fragment instanceof SupportMapFragment) {
-                mMapFragment = (SupportMapFragment)fragment;
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof RiddleDirectionsAndQuestionFragment) {
+                mRiddleDirectionsAndQuestionFragment = (RiddleDirectionsAndQuestionFragment) fragment;
+            } else if (fragment instanceof SupportMapFragment) {
+                mMapFragment = (SupportMapFragment) fragment;
             }
         }
 
-        if(mRiddleDirectionsAndQuestionFragment == null) {
+        if (mRiddleDirectionsAndQuestionFragment == null) {
             mRiddleDirectionsAndQuestionFragment = RiddleDirectionsAndQuestionFragment.newInstance(mRiddle);
         }
-        if(mMapFragment == null) {
+        if (mMapFragment == null) {
             mMapFragment = SupportMapFragment.newInstance();
         }
         mMapFragment.getMapAsync(this);
@@ -212,20 +212,21 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         mGoogleMap = googleMap;
 
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-//        mGoogleMap.setMinZoomPreference(11);
 
         LatLng riddleLocation = new LatLng(mRiddle.getGpsLat(), mRiddle.getGpsLng());
-        googleMap.addMarker(new MarkerOptions().position(riddleLocation)
-                .title(mRiddle.getTitle()));
+        googleMap.addMarker(new MarkerOptions().position(riddleLocation).title(mRiddle.getTitle()));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(riddleLocation, 10));
 
         enableUserLocationOnMap();
     }
 
     private void moveMap(Location userLocation) {
-        if(mGoogleMap != null) {
-            LatLngBounds area = new LatLngBounds(
-                    new LatLng(mRiddle.getGpsLat(), mRiddle.getGpsLng()), new LatLng(userLocation.getLatitude(), userLocation.getLongitude()));
+        if (mGoogleMap != null) {
+            double southWestLat = mRiddle.getGpsLat() < userLocation.getLatitude() ? mRiddle.getGpsLat() : userLocation.getLatitude();
+            double southWestLng = mRiddle.getGpsLng() < userLocation.getLatitude() ? mRiddle.getGpsLat() : userLocation.getLatitude();
+            double northEastLat = mRiddle.getGpsLat() > userLocation.getLatitude() ? mRiddle.getGpsLat() : userLocation.getLatitude();
+            double northEastLng = mRiddle.getGpsLng() > userLocation.getLatitude() ? mRiddle.getGpsLat() : userLocation.getLatitude();
+            LatLngBounds area = new LatLngBounds(new LatLng(southWestLat, southWestLng), new LatLng(northEastLat, northEastLng));
 
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(area, 10));
         }
@@ -279,8 +280,7 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         /**
          * Based on https://developer.android.com/training/location/change-location-settings
          */
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest);
 
         SettingsClient client = LocationServices.getSettingsClient(getActivity());
         client.checkLocationSettings(builder.build());
@@ -377,7 +377,7 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
             Log.d(TAG, "New location is: " + userLocation.toString());
             mRiddleDirectionsAndQuestionFragment.setUserLocation(userLocation);
             mRiddleDirectionsAndQuestionFragment.updateUi();
-            moveMap(userLocation);
+//            moveMap(userLocation);
         }
     }
 }

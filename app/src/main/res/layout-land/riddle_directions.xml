@@ -11,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:baselineAligned="false"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <FrameLayout
             android:id="@+id/fl_image_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/imagePlaceholder">
 
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="#7000"
+                android:background="@color/colorInfoBoxBackground"
                 android:paddingBottom="@dimen/info_box_padding"
                 android:paddingEnd="@dimen/info_box_padding"
                 android:paddingLeft="@dimen/info_box_padding"
@@ -103,8 +103,8 @@
         </FrameLayout>
 
         <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -154,11 +154,11 @@
         android:id="@+id/fab_check_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin_bottom"
         android:contentDescription="@string/action_check_location"
         android:elevation="@dimen/fab_elevation"
         android:src="@drawable/ic_location_off_black_24dp"
+        android:translationZ="@dimen/fab_press_translation_z"
         app:layout_anchor="@id/fl_image_container"
         app:layout_anchorGravity="bottom|right|end"
         tools:background="?android:attr/selectableItemBackgroundBorderless" />

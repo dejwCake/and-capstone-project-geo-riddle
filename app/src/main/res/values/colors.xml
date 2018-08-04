@@ -7,4 +7,5 @@
     <color name="colorAccentTint">#f8bbd0</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDisabled">#ACACAC</color>
+    <color name="colorInfoBoxBackground">#7000</color>
 </resources>

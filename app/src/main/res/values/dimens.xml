@@ -28,6 +28,7 @@
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+    <dimen name="fab_margin_bottom">48dp</dimen>
 
     <dimen name="direction_arrow_width">200dp</dimen>
     <dimen name="direction_arrow_height">@dimen/direction_arrow_width</dimen>
@@ -47,6 +48,8 @@
     <dimen name="button_padding_bottom">12dp</dimen>
 
     <dimen name="list_item_no_width">48dp</dimen>
+
+    <dimen name="max_width">400dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
