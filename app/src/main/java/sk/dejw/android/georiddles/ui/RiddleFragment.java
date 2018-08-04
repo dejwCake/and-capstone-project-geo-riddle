@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -220,6 +222,15 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         enableUserLocationOnMap();
     }
 
+    private void moveMap(Location userLocation) {
+        if(mGoogleMap != null) {
+            LatLngBounds area = new LatLngBounds(
+                    new LatLng(mRiddle.getGpsLat(), mRiddle.getGpsLng()), new LatLng(userLocation.getLatitude(), userLocation.getLongitude()));
+
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(area, 10));
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult");
@@ -362,9 +373,11 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
             if (locationResult == null) {
                 return;
             }
-            Log.d(TAG, "New location is: " + locationResult.getLastLocation().toString());
-            mRiddleDirectionsAndQuestionFragment.setUserLocation(locationResult.getLastLocation());
+            Location userLocation = locationResult.getLastLocation();
+            Log.d(TAG, "New location is: " + userLocation.toString());
+            mRiddleDirectionsAndQuestionFragment.setUserLocation(userLocation);
             mRiddleDirectionsAndQuestionFragment.updateUi();
+            moveMap(userLocation);
         }
     }
 }
