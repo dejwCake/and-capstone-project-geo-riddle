@@ -7,7 +7,7 @@ import android.database.Cursor;
 import sk.dejw.android.georiddles.R;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.providers.GameContract;
-import sk.dejw.android.georiddles.providers.GameProvider;
+import sk.dejw.android.georiddles.providers.RiddleProvider;
 import sk.dejw.android.georiddles.utils.cursor.GameCursorUtils;
 
 public class GeoRiddlesState {
@@ -28,7 +28,7 @@ public class GeoRiddlesState {
         }
 
         Cursor cursor = context.getContentResolver().query(
-                GameProvider.Games.withId(gameId),
+                RiddleProvider.Games.withId(gameId),
                 null,
                 null,
                 null,

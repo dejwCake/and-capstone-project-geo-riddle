@@ -13,9 +13,8 @@ import java.util.ArrayList;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.models.Riddle;
 import sk.dejw.android.georiddles.providers.GameContract;
-import sk.dejw.android.georiddles.providers.GameProvider;
-import sk.dejw.android.georiddles.providers.RiddleContract;
 import sk.dejw.android.georiddles.providers.RiddleProvider;
+import sk.dejw.android.georiddles.providers.RiddleContract;
 import sk.dejw.android.georiddles.utils.GeoRiddlesState;
 import sk.dejw.android.georiddles.utils.cursor.GameCursorUtils;
 import sk.dejw.android.georiddles.utils.cursor.RiddleCursorUtils;
@@ -59,7 +58,7 @@ public class GameService extends IntentService {
             game = GeoRiddlesState.getLastSelectedGame(this);
         } else {
             cursor = getContentResolver().query(
-                    GameProvider.Games.withId(gameId),
+                    RiddleProvider.Games.withId(gameId),
                     null,
                     null,
                     null,

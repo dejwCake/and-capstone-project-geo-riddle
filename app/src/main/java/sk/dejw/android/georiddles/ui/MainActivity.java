@@ -54,7 +54,7 @@ import sk.dejw.android.georiddles.asyncTasks.FetchGamesTask;
 import sk.dejw.android.georiddles.asyncTasks.SaveGamesTask;
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.providers.GameContract;
-import sk.dejw.android.georiddles.providers.GameProvider;
+import sk.dejw.android.georiddles.providers.RiddleProvider;
 import sk.dejw.android.georiddles.utils.GeoRiddlesState;
 import sk.dejw.android.georiddles.utils.cursor.GameCursorUtils;
 import sk.dejw.android.georiddles.utils.network.GlobalNetworkUtils;
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     String.valueOf(left)
             };
             return new CursorLoader(this,
-                    GameProvider.Games.GAMES_URI,
+                    RiddleProvider.Games.GAMES_URI,
                     null,
                     selection,
                     selectionArgs,
@@ -394,7 +394,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
             Log.d(TAG, "we are loading all games");
             return new CursorLoader(this,
-                    GameProvider.Games.GAMES_URI,
+                    RiddleProvider.Games.GAMES_URI,
                     null,
                     null,
                     null,
@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 String selection = GameContract.COLUMN_CODE + " = ?";
                 String[] selectionArgs = {code};
                 Cursor searchResult = getContentResolver().query(
-                        GameProvider.Games.GAMES_URI,
+                        RiddleProvider.Games.GAMES_URI,
                         null,
                         selection,
                         selectionArgs,

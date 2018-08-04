@@ -1,64 +1,42 @@
 package sk.dejw.android.georiddles.providers;
 
-import net.simonvt.schematic.annotation.AutoIncrement;
-import net.simonvt.schematic.annotation.ConflictResolutionType;
-import net.simonvt.schematic.annotation.DataType;
-import net.simonvt.schematic.annotation.NotNull;
-import net.simonvt.schematic.annotation.PrimaryKey;
+import android.net.Uri;
+import android.provider.BaseColumns;
 
-/**
- * Uses the Schematic (https://github.com/SimonVT/schematic) library to define the columns in a
- * content provider baked by a database
- */
 
 public class RiddleContract {
 
-    @DataType(DataType.Type.INTEGER)
-    @PrimaryKey(onConflict = ConflictResolutionType.REPLACE)
-    @AutoIncrement
-    public static final String _ID = "_id";
+    public static final String CONTENT_AUTHORITY = "sk.dejw.android.georiddles";
 
-    @DataType(DataType.Type.TEXT)
-    @NotNull
-    public static final String COLUMN_GAME_UUID = "game_uuid";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-    @DataType(DataType.Type.TEXT)
-    @NotNull
-    public static final String COLUMN_TITLE = "title";
+    public static final String PATH = "riddles";
 
-    @DataType(DataType.Type.INTEGER)
-    @NotNull
-    public static final String COLUMN_NO = "no";
+    public static final class Entry implements BaseColumns {
 
-    @DataType(DataType.Type.REAL)
-    @NotNull
-    public static final String COLUMN_GPS_LAT = "gps_lat";
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH)
+                .build();
 
-    @DataType(DataType.Type.REAL)
-    @NotNull
-    public static final String COLUMN_GPS_LNG = "gps_lng";
+        public static final String TABLE_NAME = "riddles";
 
-    @DataType(DataType.Type.TEXT)
-    @NotNull
-    public static final String COLUMN_IMAGE_PATH = "image_path";
+        public static final String _ID = "_id";
+        public static final String COLUMN_GAME_UUID = "game_uuid";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_NO = "no";
+        public static final String COLUMN_GPS_LAT = "gps_lat";
+        public static final String COLUMN_GPS_LNG = "gps_lng";
+        public static final String COLUMN_IMAGE_PATH = "image_path";
+        public static final String COLUMN_QUESTION = "question";
+        public static final String COLUMN_ANSWER = "answer";
+        public static final String COLUMN_ACTIVE = "active";
+        public static final String COLUMN_LOCATION_CHECKED = "location_checked";
+        public static final String COLUMN_RIDDLE_SOLVED = "riddle_solved";
 
-    @DataType(DataType.Type.TEXT)
-    @NotNull
-    public static final String COLUMN_QUESTION = "question";
-
-    @DataType(DataType.Type.TEXT)
-    @NotNull
-    public static final String COLUMN_ANSWER = "answer";
-
-    @DataType(DataType.Type.INTEGER)
-    @NotNull
-    public static final String COLUMN_ACTIVE = "active";
-
-    @DataType(DataType.Type.INTEGER)
-    @NotNull
-    public static final String COLUMN_LOCATION_CHECKED = "location_checked";
-
-    @DataType(DataType.Type.INTEGER)
-    @NotNull
-    public static final String COLUMN_RIDDLE_SOLVED = "riddle_solved";
+        public static Uri withId(long id) {
+            return CONTENT_URI.buildUpon()
+                    .appendPath(Long.toString(id))
+                    .build();
+        }
+    }
 }

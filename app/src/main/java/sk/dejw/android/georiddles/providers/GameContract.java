@@ -1,42 +1,35 @@
 package sk.dejw.android.georiddles.providers;
 
-import net.simonvt.schematic.annotation.AutoIncrement;
-import net.simonvt.schematic.annotation.ConflictResolutionType;
-import net.simonvt.schematic.annotation.DataType;
-import net.simonvt.schematic.annotation.NotNull;
-import net.simonvt.schematic.annotation.PrimaryKey;
-
-/**
- * Uses the Schematic (https://github.com/SimonVT/schematic) library to define the columns in a
- * content provider baked by a database
- */
+import android.net.Uri;
+import android.provider.BaseColumns;
 
 public class GameContract {
 
-    @DataType(DataType.Type.INTEGER)
-    @PrimaryKey(onConflict = ConflictResolutionType.REPLACE)
-    @AutoIncrement
-    public static final String _ID = "_id";
+    public static final String CONTENT_AUTHORITY = "sk.dejw.android.georiddles";
 
-    @DataType(DataType.Type.TEXT)
-    @NotNull
-    public static final String COLUMN_UUID = "uuid";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-    @DataType(DataType.Type.TEXT)
-    @NotNull
-    public static final String COLUMN_TITLE = "title";
+    public static final String PATH = "games";
 
-    @DataType(DataType.Type.TEXT)
-    @NotNull
-    public static final String COLUMN_CODE = "code";
+    public static final class Entry implements BaseColumns {
 
-    @DataType(DataType.Type.REAL)
-    @NotNull
-    public static final String COLUMN_GPS_LAT = "gps_lat";
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+                .appendPath(PATH)
+                .build();
 
-    @DataType(DataType.Type.REAL)
-    @NotNull
-    public static final String COLUMN_GPS_LNG = "gps_lng";
+        public static final String TABLE_NAME = "games";
 
-    public static final long INVALID_ID = -1;
+        public static final String _ID = "_id";
+        public static final String COLUMN_UUID = "uuid";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_CODE = "code";
+        public static final String COLUMN_GPS_LAT = "gps_lat";
+        public static final String COLUMN_GPS_LNG = "gps_lng";
+
+        public static Uri withId(long id) {
+            return CONTENT_URI.buildUpon()
+                    .appendPath(Long.toString(id))
+                    .build();
+        }
+    }
 }

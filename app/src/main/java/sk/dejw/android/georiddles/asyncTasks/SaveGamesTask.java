@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 
 import sk.dejw.android.georiddles.models.Game;
 import sk.dejw.android.georiddles.providers.GameContract;
-import sk.dejw.android.georiddles.providers.GameProvider;
+import sk.dejw.android.georiddles.providers.RiddleProvider;
 
 public class SaveGamesTask extends AsyncTask<Game[], Void, String> {
     private static final String TAG = SaveGamesTask.class.getSimpleName();
@@ -38,8 +38,8 @@ public class SaveGamesTask extends AsyncTask<Game[], Void, String> {
                     newGame.put(GameContract.COLUMN_CODE, games[i].getCode());
                     newGame.put(GameContract.COLUMN_GPS_LAT, games[i].getGpsLat());
                     newGame.put(GameContract.COLUMN_GPS_LNG, games[i].getGpsLng());
-                    if (mContext.getContentResolver().update(GameProvider.Games.GAMES_URI, newGame, GameContract.COLUMN_UUID + " = ?", new String[]{games[i].getUuid().toString()}) == 0) {
-                        mContext.getContentResolver().insert(GameProvider.Games.GAMES_URI, newGame);
+                    if (mContext.getContentResolver().update(RiddleProvider.Games.GAMES_URI, newGame, GameContract.COLUMN_UUID + " = ?", new String[]{games[i].getUuid().toString()}) == 0) {
+                        mContext.getContentResolver().insert(RiddleProvider.Games.GAMES_URI, newGame);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
