@@ -2,6 +2,8 @@ package sk.dejw.android.georiddles.utils.cursor;
 
 import android.database.Cursor;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -25,6 +27,9 @@ public final class RiddleCursorUtils {
         final Integer RIDDLE_SOLVED = cursor.getColumnIndex(RiddleContract.COLUMN_RIDDLE_SOLVED);
 
         ArrayList<Riddle> list = new ArrayList<>();
+        if(cursor.getPosition() != -1){
+            cursor.moveToPosition(-1);
+        }
         while (cursor.moveToNext()) {
             Riddle riddle = new Riddle(
                     cursor.getInt(ID),
@@ -75,6 +80,7 @@ public final class RiddleCursorUtils {
                     cursor.getInt(LOCATION_CHECKED) != 0,
                     cursor.getInt(RIDDLE_SOLVED) != 0
             );
+            cursor.close();
             return riddle;
         } else {
             return null;

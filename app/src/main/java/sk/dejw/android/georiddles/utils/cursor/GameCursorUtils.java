@@ -19,6 +19,9 @@ public final class GameCursorUtils {
         final Integer GAME_GPS_LNG = cursor.getColumnIndex(GameContract.COLUMN_GPS_LNG);
 
         ArrayList<Game> list = new ArrayList<>();
+        if(cursor.getPosition() != -1){
+            cursor.moveToPosition(-1);
+        }
         while (cursor.moveToNext()) {
             Game game = new Game(
                     cursor.getLong(GAME_ID),

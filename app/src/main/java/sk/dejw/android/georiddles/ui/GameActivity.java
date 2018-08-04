@@ -102,9 +102,9 @@ public class GameActivity extends AppCompatActivity implements
 
         super.onResume();
 
-        if (mRiddles == null || mRiddles.size() == 0) {
-            loadRiddlesFromDb(RIDDLES_FIRST_ATTEMPT_LOADER_ID);
-        }
+//        if (mRiddles == null || mRiddles.size() == 0) {
+//            loadRiddlesFromDb(RIDDLES_FIRST_ATTEMPT_LOADER_ID);
+//        }
     }
 
     @Override
@@ -201,6 +201,7 @@ public class GameActivity extends AppCompatActivity implements
                 selectedRiddle = riddle;
             }
         }
+//        Log.d(TAG, "Selected riddle active: " + selectedRiddle.isActive() + " solved: " + selectedRiddle.isRiddleSolved());
         if (selectedRiddle != null && (selectedRiddle.isActive() || selectedRiddle.isRiddleSolved())) {
             if (mTwoPane) {
                 RiddleFragment riddleFragment = RiddleFragment.newInstance(selectedRiddle);
@@ -238,12 +239,14 @@ public class GameActivity extends AppCompatActivity implements
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         Log.d(TAG, "Riddles loaded: " + String.valueOf(data.getCount()));
+        Log.d(TAG, String.valueOf(loader.getId()));
 
         switch (loader.getId()) {
             case RIDDLES_FIRST_ATTEMPT_LOADER_ID:
                 mLoadingIndicator.setVisibility(View.INVISIBLE);
                 if (data.getCount() != 0) {
                     mRiddles = RiddleCursorUtils.getRiddlesFromCursor(data);
+                    Log.d(TAG, "Riddles loaded and in mRiddles: " + mRiddles.size());
                     setupFragments();
                 } else {
                     loadRiddlesFromInternet();
@@ -253,6 +256,7 @@ public class GameActivity extends AppCompatActivity implements
                 mLoadingIndicator.setVisibility(View.INVISIBLE);
                 if (data.getCount() != 0) {
                     mRiddles = RiddleCursorUtils.getRiddlesFromCursor(data);
+                    Log.d(TAG, "Riddles loaded and in mRiddles: " + mRiddles.size());
                     setupFragments();
                 } else {
                     showErrorMessage();

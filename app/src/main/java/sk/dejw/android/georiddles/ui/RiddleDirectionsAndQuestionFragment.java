@@ -180,7 +180,7 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
 
         //Static UI
         mGpsLat.setText(String.valueOf(mRiddle.getGpsLat()));
-        mGpsLng.setText(String.valueOf(mRiddle.getGpsLat()));
+        mGpsLng.setText(String.valueOf(mRiddle.getGpsLng()));
         if (!TextUtils.isEmpty(mRiddle.getImagePath())) {
             Picasso.get()
                     .load(mRiddle.getImagePath())
@@ -216,6 +216,7 @@ public class RiddleDirectionsAndQuestionFragment extends Fragment {
 
         if (mUserLocation != null) {
             mDistance = mUserLocation.distanceTo(riddleLocation);
+            Log.d(TAG, "Distance between: " + mUserLocation.toString() + " and " + mRiddle.getLocation().toString() + " is: " + mDistance);
         }
         if (mDistance <= DISTANCE_THRESHOLD) {
             mCheckLocation.setEnabled(true);

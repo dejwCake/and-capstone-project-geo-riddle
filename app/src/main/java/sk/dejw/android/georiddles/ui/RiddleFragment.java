@@ -192,7 +192,7 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
         mGoogleMap = googleMap;
 
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-        mGoogleMap.setMinZoomPreference(11);
+//        mGoogleMap.setMinZoomPreference(11);
 
         LatLng riddleLocation = new LatLng(mRiddle.getGpsLat(), mRiddle.getGpsLng());
         googleMap.addMarker(new MarkerOptions().position(riddleLocation)
@@ -345,6 +345,7 @@ public class RiddleFragment extends Fragment implements OnMapReadyCallback,
                 return;
             }
             for (Location location : locationResult.getLocations()) {
+                Log.d(TAG, "New location is: " + location.toString());
                 mRiddleDirectionsAndQuestionFragment.setUserLocation(location);
                 mRiddleDirectionsAndQuestionFragment.updateUi();
             }
