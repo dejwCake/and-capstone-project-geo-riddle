@@ -10,6 +10,7 @@
 
     <dimen name="default_margin">16dp</dimen>
     <dimen name="text_view_margin">8dp</dimen>
+    <dimen name="text_view_bottom_margin">16dp</dimen>
     <dimen name="text_view_padding">8dp</dimen>
     <dimen name="text_view_font_size_small">14sp</dimen>
     <dimen name="text_view_font_size_medium">20sp</dimen>
@@ -28,7 +29,7 @@
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
 
-    <dimen name="direction_arrow_width">240dp</dimen>
+    <dimen name="direction_arrow_width">200dp</dimen>
     <dimen name="direction_arrow_height">@dimen/direction_arrow_width</dimen>
 
     <dimen name="question_margin_top">32dp</dimen>
