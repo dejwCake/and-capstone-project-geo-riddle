@@ -238,13 +238,17 @@ public class GameActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        Log.d(TAG, "Riddles loaded: " + String.valueOf(data.getCount()));
+        if(data != null) {
+            Log.d(TAG, "Riddles loaded: " + String.valueOf(data.getCount()));
+        } else {
+            Log.d(TAG, "Riddles not loaded!");
+        }
         Log.d(TAG, String.valueOf(loader.getId()));
 
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         switch (loader.getId()) {
             case RIDDLES_FIRST_ATTEMPT_LOADER_ID:
-                if (data.getCount() != 0) {
+                if (data != null && data.getCount() != 0) {
                     mRiddles = RiddleCursorUtils.getRiddlesFromCursor(data);
                     Log.d(TAG, "Riddles loaded and in mRiddles: " + mRiddles.size());
                     setupFragments();
@@ -253,7 +257,7 @@ public class GameActivity extends AppCompatActivity implements
                 }
                 break;
             case RIDDLES_SECOND_ATTEMPT_LOADER_ID:
-                if (data.getCount() != 0) {
+                if (data != null && data.getCount() != 0) {
                     mRiddles = RiddleCursorUtils.getRiddlesFromCursor(data);
                     Log.d(TAG, "Riddles loaded and in mRiddles: " + mRiddles.size());
                     setupFragments();

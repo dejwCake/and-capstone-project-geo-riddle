@@ -239,6 +239,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void swapData(Cursor cursor) {
+        if(cursor == null) {
+            Log.e(TAG, "Cursor empty, nothing to swap");
+            return;
+        }
         Log.d(TAG, "Swapping for games in cursor: " + cursor.getCount());
 
         ArrayList<Game> listOfGames = GameCursorUtils.getGamesFromCursor(cursor);
@@ -404,10 +408,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        Log.d(TAG, "Games loaded: " + String.valueOf(data.getCount()));
+        if(data != null) {
+            Log.d(TAG, "Games loaded: " + String.valueOf(data.getCount()));
+        } else {
+            Log.d(TAG, "Games not loaded!");
+        }
 
         mLoadingIndicator.setVisibility(View.INVISIBLE);
-        if (data.getCount() != 0) {
+        if (data != null && data.getCount() != 0) {
             updateUi();
             swapData(data);
         } else {

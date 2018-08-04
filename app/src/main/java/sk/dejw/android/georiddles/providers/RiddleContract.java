@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
 
 public class RiddleContract {
 
-    public static final String CONTENT_AUTHORITY = "sk.dejw.android.georiddles";
+    public static final String CONTENT_AUTHORITY = "sk.dejw.android.georiddles.riddles";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 

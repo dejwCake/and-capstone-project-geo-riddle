@@ -63,9 +63,11 @@ public class GameService extends IntentService {
                     null,
                     GameContract.Entry.COLUMN_TITLE
             );
-            Log.d(TAG, "Cursor count: " + cursor.getCount());
-            game = GameCursorUtils.getFirstGameFromCursor(cursor);
-            cursor.close();
+            if(cursor != null) {
+                Log.d(TAG, "Cursor count: " + cursor.getCount());
+                game = GameCursorUtils.getFirstGameFromCursor(cursor);
+                cursor.close();
+            }
         }
 
         if (game != null) {
@@ -77,7 +79,9 @@ public class GameService extends IntentService {
                     RiddleContract.Entry.COLUMN_NO
             );
             ArrayList<Riddle> riddles = RiddleCursorUtils.getRiddlesFromCursor(cursor);
-            cursor.close();
+            if(cursor != null) {
+                cursor.close();
+            }
 
             riddlesTotalCount = riddles.size();
             for (Riddle riddle : riddles) {
