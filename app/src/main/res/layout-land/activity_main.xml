@@ -31,52 +31,63 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="NewApi" />
 
-            <TextView
-                android:id="@+id/tv_provide_code"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_margin"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:layout_marginStart="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/welcome_margin"
-                android:text="@string/provide_code"
-                android:textSize="@dimen/text_view_font_size_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_welcome" />
-
-            <EditText
-                android:id="@+id/et_code"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_left"
                 android:layout_width="0dp"
-                android:layout_height="42dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/activity_margin"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
                 android:layout_marginStart="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/welcome_margin"
-                android:ems="10"
-                android:hint="@string/placeholder_code"
-                android:inputType="textPersonName"
-                android:nextFocusDown="@id/bt_near_by"
-                android:nextFocusRight="@id/iv_search"
-                app:layout_constraintEnd_toStartOf="@+id/iv_search"
+                android:layout_marginTop="@dimen/activity_margin"
+                app:layout_constraintEnd_toStartOf="@+id/tv_or"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_provide_code" />
+                app:layout_constraintTop_toTopOf="@+id/tv_or">
 
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="@dimen/search_image_width"
-                android:layout_height="@dimen/search_image_height"
-                android:layout_marginEnd="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:nextFocusDown="@id/bt_near_by"
-                android:nextFocusLeft="@id/et_code"
-                android:tint="@color/colorAccent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/et_code"
-                app:srcCompat="@android:drawable/ic_menu_search"
-                android:contentDescription="@string/search"/>
+                <TextView
+                    android:id="@+id/tv_provide_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_marginStart="@dimen/activity_margin"
+                    android:text="@string/provide_code"
+                    android:textSize="@dimen/text_view_font_size_small"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <EditText
+                    android:id="@+id/et_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginStart="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/welcome_margin"
+                    android:ems="9"
+                    android:hint="@string/placeholder_code"
+                    android:nextFocusDown="@id/iv_search"
+                    android:nextFocusRight="@id/bt_near_by"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_provide_code" />
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="@dimen/search_image_width"
+                    android:layout_height="@dimen/search_image_height"
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_marginStart="@dimen/activity_margin"
+                    android:contentDescription="@string/search"
+                    android:nextFocusRight="@id/bt_near_by"
+                    android:nextFocusUp="@id/et_code"
+                    android:tint="@color/colorAccent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/et_code"
+                    app:layout_constraintTop_toTopOf="@+id/et_code"
+                    app:srcCompat="@android:drawable/ic_menu_search" />
+            </android.support.constraint.ConstraintLayout>
 
             <TextView
                 android:id="@+id/tv_or"
@@ -91,38 +102,51 @@
                 android:textSize="@dimen/text_view_font_size_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_code" />
+                app:layout_constraintTop_toBottomOf="@id/tv_welcome" />
 
-            <TextView
-                android:id="@+id/tv_select_near_by"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_margin"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cl_right"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
                 android:layout_marginStart="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/welcome_margin"
-                android:text="@string/select_nearby"
+                android:layout_marginTop="@dimen/activity_margin"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_or" />
+                app:layout_constraintStart_toEndOf="@+id/tv_or"
+                app:layout_constraintTop_toTopOf="@+id/tv_or">
 
-            <Button
-                android:id="@+id/bt_near_by"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/activity_margin"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:layout_marginStart="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/welcome_margin"
-                android:background="@color/colorPrimaryDark"
-                android:nextFocusUp="@id/et_code"
-                android:text="@string/placeholder_game"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_select_near_by" />
+                <TextView
+                    android:id="@+id/tv_select_near_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_marginStart="@dimen/activity_margin"
+                    android:text="@string/select_nearby"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/bt_near_by"
+                    android:layout_width="212dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_margin"
+                    android:layout_marginEnd="@dimen/activity_margin"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_marginStart="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/welcome_margin"
+                    android:background="@color/colorPrimaryDark"
+                    android:nextFocusUp="@id/et_code"
+                    android:text="@string/placeholder_game"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_select_near_by" />
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.constraint.ConstraintLayout>
 

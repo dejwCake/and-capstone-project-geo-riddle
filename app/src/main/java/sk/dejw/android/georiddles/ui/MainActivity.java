@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mListPopupWindow.setAdapter(mAdapter);
         mListPopupWindow.setAnchorView(mNearBy);
         mListPopupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-        mListPopupWindow.setHeight(400);
+        mListPopupWindow.setHeight(300);
 
         mListPopupWindow.setModal(true);
         mListPopupWindow.setOnItemClickListener(
